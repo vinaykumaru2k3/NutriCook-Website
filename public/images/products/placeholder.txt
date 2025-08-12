@@ -1,0 +1,13 @@
+# Product Images Placeholder
+
+This directory contains product images for the NutriCook website.
+
+Expected images:
+- biriyani-pot-12l.jpg
+- fish-pot-6l.jpg
+- casserole-3l.jpg
+- casserole-5l.jpg
+- frying-pan-24cm.jpg
+- complete-set.jpg
+
+For development, the component will use placeholder images if the actual images are not available.

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Component Test</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        // Simple test to verify the component structure
+        const { useState } = React;
+        
+        function TestDemo() {
+            return (
+                <div className="py-16 lg:py-24 bg-gradient-to-br from-orange-50 to-white">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                                Seeing is Believing. Tasting is Knowing.
+                            </h2>
+                            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                                Experience the magic of oil-free, water-free cooking in the comfort of your own home.
+                            </p>
+                        </div>
+                        <div className="text-center">
+                            <button className="inline-flex items-center px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg rounded-xl shadow-lg">
+                                Book Your FREE Home Demo Today
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<TestDemo />, document.getElementById('root'));
+    </script>
+</body>
+</html>

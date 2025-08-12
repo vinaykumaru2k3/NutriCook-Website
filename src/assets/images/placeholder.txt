@@ -1,0 +1,9 @@
+# Image Assets
+
+This directory will contain:
+- Product images (biriyani pot, fish pot, casseroles, etc.)
+- Hero background images
+- Demo/lifestyle images
+- Logo files
+
+For now, we'll use placeholder images and update with actual product images later.

@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
+import { smoothScrollTo } from '../utils/animations';
+import { trackButtonClick } from '../utils/analytics';
 
 export default function Demo() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Animation refs
+  const headerRef = useAnimatedRef('fadeInUp', 0);
+  const mediaRef = useAnimatedRef('fadeInLeft', 200);
+  const contentRef = useAnimatedRef('fadeInRight', 400);
+  const trustIndicatorsRef = useStaggerAnimation(3, 150);
   
   // Demo images/videos - using placeholder content for now
   const demoMedia = [
     {
       type: 'image',
-      src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center',
+      src: 'https://img.freepik.com/premium-photo/person-cooking-vegetables-kitchen_961875-264359.jpg',
       alt: 'NutriCook demonstration showing oil-free cooking',
       caption: 'Watch as vegetables cook perfectly without any oil'
     },
@@ -20,7 +29,7 @@ export default function Demo() {
     },
     {
       type: 'image',
-      src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center',
+      src: 'https://www.escoffier.edu/wp-content/uploads/2022/08/Chef-sauteing-vegetables-in-a-black-pan-with-a-wooden-spoon-1400.jpeg',
       alt: 'NutriCook presenter explaining cooking process',
       caption: 'Our experts guide you through the entire process'
     },
@@ -42,14 +51,15 @@ export default function Demo() {
   };
 
   const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    smoothScrollTo('contact', { offset: 80, duration: 800 });
+    trackButtonClick('book_free_home_demo', 'demo_section');
   };
 
   return (
     <div className="py-16 lg:py-24 bg-gradient-to-br from-orange-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
             Seeing is Believing. Tasting is Knowing.
           </h2>
@@ -63,7 +73,7 @@ export default function Demo() {
         {/* Split Layout */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Visual Content - Left Side */}
-          <div className="order-2 lg:order-1">
+          <div ref={mediaRef} className="order-2 lg:order-1">
             <div className="relative">
               {/* Main Media Display */}
               <div className="relative aspect-video bg-gray-100 rounded-2xl overflow-hidden shadow-2xl">
@@ -109,14 +119,14 @@ export default function Demo() {
                 {/* Navigation Arrows */}
                 <button
                   onClick={prevImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
                   aria-label="Previous image"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2"
                   aria-label="Next image"
                 >
                   <ChevronRight className="w-5 h-5" />
@@ -143,9 +153,9 @@ export default function Demo() {
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                      index === currentImageIndex 
-                        ? 'bg-orange-500 scale-125' 
+                    className={`w-3 h-3 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
+                      index === currentImageIndex
+                        ? 'bg-orange-500 scale-125'
                         : 'bg-gray-300 hover:bg-gray-400'
                     }`}
                     aria-label={`View media ${index + 1}`}
@@ -156,7 +166,7 @@ export default function Demo() {
           </div>
 
           {/* Content - Right Side */}
-          <div className="order-1 lg:order-2">
+          <div ref={contentRef} className="order-1 lg:order-2">
             <div className="space-y-8">
               {/* What to Expect */}
               <div>
@@ -227,7 +237,7 @@ export default function Demo() {
               <div className="text-center lg:text-left">
                 <button
                   onClick={scrollToContact}
-                  className="inline-flex items-center px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+                  className="inline-flex items-center px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 btn-animated"
                 >
                   Book Your FREE Home Demo Today
                 </button>
@@ -241,7 +251,7 @@ export default function Demo() {
 
         {/* Trust Indicators */}
         <div className="mt-16 text-center">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div ref={trustIndicatorsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-3xl font-bold text-orange-500 mb-2">10,000+</div>
               <div className="text-gray-600">Successful Demonstrations</div>

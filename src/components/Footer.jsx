@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gray-900 text-white py-12" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
@@ -19,22 +19,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#home" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#home" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Home
                 </a>
               </li>
               <li>
-                <a href="#why-nutricook" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#why-nutricook" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Why NutriCook?
                 </a>
               </li>
               <li>
-                <a href="#products" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#products" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Our Products
                 </a>
               </li>
               <li>
-                <a href="#demo" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#demo" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Free Demo
                 </a>
               </li>
@@ -46,22 +46,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Business</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#dealer" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#dealer" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Become a Dealer
                 </a>
               </li>
               <li>
-                <a href="#contact" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#contact" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Contact Us
                 </a>
               </li>
               <li>
-                <a href="tel:+919876543210" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="tel:+919876543210" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   +91 98765 43210
                 </a>
               </li>
               <li>
-                <a href="mailto:demo@nutricook.com" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="mailto:demo@nutricook.com" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   demo@nutricook.com
                 </a>
               </li>
@@ -73,22 +73,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Warranty Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors">
+                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Return Policy
                 </a>
               </li>

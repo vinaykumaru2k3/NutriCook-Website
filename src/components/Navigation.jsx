@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, Heart, Shield, Zap } from "lucide-react";
 import { cn } from "../utils/cn";
-import { scrollToSection } from "../utils/scroll";
+import { smoothScrollTo } from "../utils/animations";
+import { useNavigationScroll } from "../hooks/useAnimations";
+import { trackButtonClick } from "../utils/analytics";
 import Button from "./ui/Button";
 
 const Navigation = ({ activeSection = "home" }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navRef = useNavigationScroll();
 
   const navigationLinks = [
     { id: "home", label: "Home" },
@@ -15,28 +18,21 @@ const Navigation = ({ activeSection = "home" }) => {
     { id: "dealer", label: "Become a Dealer" },
     { id: "contact", label: "Contact" },
   ];
+  
+  
 
-  // Handle scroll effect for navigation background
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Handle navigation click
+  // Handle navigation click with smooth scrolling
   const handleNavClick = (sectionId) => {
-    scrollToSection(sectionId);
+    smoothScrollTo(sectionId, { offset: 80, duration: 800 });
     setIsMenuOpen(false);
+    trackButtonClick(`nav_${sectionId}`, 'navigation');
   };
 
   // Handle demo button click
   const handleDemoClick = () => {
-    scrollToSection("contact");
+    smoothScrollTo("contact", { offset: 80, duration: 800 });
     setIsMenuOpen(false);
+    trackButtonClick('nav_request_free_demo', 'navigation');
   };
 
   // Close mobile menu when clicking outside
@@ -74,10 +70,11 @@ const Navigation = ({ activeSection = "home" }) => {
 
   return (
     <nav
+      ref={navRef}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
+        "fixed top-0 left-0 right-0 z-50 nav-animated",
         isScrolled
-          ? "bg-white/90 backdrop-blur-xl shadow-lg border-b border-gray-100/50"
+          ? "bg-white/80 backdrop-blur-2xl shadow-lg border-b border-gray-100/50"
           : "bg-transparent"
       )}
       role="navigation"
@@ -88,7 +85,10 @@ const Navigation = ({ activeSection = "home" }) => {
           {/* Modern Logo */}
           <div className="flex-shrink-0">
             <button
-              onClick={() => handleNavClick("home")}
+              onClick={() => {
+                handleNavClick("home");
+                trackButtonClick('nav_logo', 'navigation');
+              }}
               className="flex items-center space-x-3 focus-ring rounded-xl p-2 -m-2 group transition-all duration-300"
               aria-label="NutriCook home"
             >
@@ -137,7 +137,10 @@ const Navigation = ({ activeSection = "home" }) => {
           {/* Desktop CTA Button */}
           <div className="hidden lg:block">
             <Button
-              onClick={handleDemoClick}
+              onClick={() => {
+                handleDemoClick();
+                trackButtonClick('nav_request_free_demo', 'navigation');
+              }}
               variant="primary"
               size="md"
               className="font-semibold shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700"
@@ -194,17 +197,26 @@ const Navigation = ({ activeSection = "home" }) => {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
-                <Leaf className="w-4 h-4 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-gray-900">
-                  NutriCook
-                </span>
-                <span className="text-xs text-green-600 font-medium">
-                  Healthy Living
-                </span>
-              </div>
+              <button
+                onClick={() => {
+                  handleNavClick("home");
+                  trackButtonClick('mobile_nav_logo', 'mobile_navigation');
+                }}
+                className="flex items-center space-x-3 focus-ring rounded-lg p-2 -m-2 group transition-all duration-300"
+                aria-label="NutriCook home"
+              >
+                <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-teal-600 rounded-lg flex items-center justify-center">
+                  <Leaf className="w-4 h-4 text-white" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg font-bold text-gray-900">
+                    NutriCook
+                  </span>
+                  <span className="text-xs text-green-600 font-medium">
+                    Healthy Living
+                  </span>
+                </div>
+              </button>
             </div>
             <button
               onClick={() => setIsMenuOpen(false)}
@@ -221,7 +233,10 @@ const Navigation = ({ activeSection = "home" }) => {
               {navigationLinks.map((link, index) => (
                 <button
                   key={link.id}
-                  onClick={() => handleNavClick(link.id)}
+                  onClick={() => {
+                    handleNavClick(link.id);
+                    trackButtonClick(`mobile_nav_${link.id}`, 'mobile_navigation');
+                  }}
                   onKeyDown={(e) => handleKeyDown(e, link.id)}
                   className={cn(
                     "w-full text-left px-4 py-4 rounded-xl text-lg font-medium transition-all duration-200 focus-ring group mobile-nav-item touch-target",
@@ -248,7 +263,10 @@ const Navigation = ({ activeSection = "home" }) => {
           {/* Mobile Menu CTA */}
           <div className="p-6 border-t border-gray-100 bg-gradient-to-r from-green-50 to-teal-50">
             <Button
-              onClick={handleDemoClick}
+              onClick={() => {
+                handleDemoClick();
+                trackButtonClick('mobile_nav_request_free_demo', 'mobile_navigation');
+              }}
               variant="primary"
               size="lg"
               fullWidth

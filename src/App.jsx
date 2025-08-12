@@ -1,11 +1,14 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
+import Testimonials from './components/Testimonials';
 import LazySection from './components/ui/LazySection';
 import LoadingState from './components/ui/LoadingState';
 import { BenefitsSkeleton, ProductCardSkeleton } from './components/ui/SkeletonLoader';
 import { getActiveSection, throttle } from './utils/scroll';
 import { initPerformanceOptimizations } from './utils/performanceOptimizations';
+import { initializeAnimations } from './utils/animations';
+import { initializeAnalytics } from './utils/analytics';
 
 // Lazy load components that are below the fold
 const Benefits = lazy(() => import('./components/Benefits'));
@@ -28,6 +31,12 @@ function App() {
   useEffect(() => {
     // Initialize comprehensive performance optimizations
     initPerformanceOptimizations();
+    
+    // Initialize animations
+    const animationCleanup = initializeAnimations();
+    
+    // Initialize analytics
+    const analyticsCleanup = initializeAnalytics();
 
     const handleScroll = throttle(() => {
       const currentSection = getActiveSection(sections);
@@ -35,7 +44,16 @@ function App() {
     }, 100);
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationCleanup && animationCleanup.destroy) {
+        animationCleanup.destroy();
+      }
+      if (analyticsCleanup && analyticsCleanup.destroy) {
+        analyticsCleanup.destroy();
+      }
+    };
   }, []);
 
   return (
@@ -51,7 +69,7 @@ function App() {
       <Navigation activeSection={activeSection} />
       
       <main id="main-content" className="safe-area-inset">
-        <section id="home">
+        <section id="home" className="pt-18 lg:pt-22">
           <Hero />
         </section>
         
@@ -65,6 +83,11 @@ function App() {
             </Suspense>
           </section>
         </LazySection>
+        
+        {/* Testimonials Section */}
+        <section id="testimonials">
+          <Testimonials />
+        </section>
         
         <LazySection
           fallback={

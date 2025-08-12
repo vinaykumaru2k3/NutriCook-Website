@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, CheckCircle, AlertCircle } from 'lucide-react';
+import { useAnimatedRef, useFormAnimation, useLoadingAnimation } from '../hooks/useAnimations';
+import { trackFormSubmission, trackDemoRequest } from '../utils/analytics';
+import { a11y } from '../utils/design-system';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,6 +15,13 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  
+  // Animation hooks
+  const headerRef = useAnimatedRef('fadeInUp', 0);
+  const formRef = useAnimatedRef('fadeInLeft', 200);
+  const contactInfoRef = useAnimatedRef('fadeInRight', 400);
+  const { formRef: formAnimationRef, animateSubmission, animateSuccess, animateError } = useFormAnimation();
+  const submitButtonRef = useLoadingAnimation(isSubmitting);
 
   const validateForm = () => {
     const newErrors = {};
@@ -61,11 +71,13 @@ export default function Contact() {
     e.preventDefault();
     
     if (!validateForm()) {
+      animateError();
       return;
     }
     
     setIsSubmitting(true);
     setSubmitStatus(null);
+    animateSubmission(true);
     
     try {
       // Simulate form submission - replace with actual API call
@@ -80,6 +92,17 @@ export default function Contact() {
       
       setSubmitStatus('success');
       setFormData({ name: '', phone: '', city: '', comments: '' });
+      animateSuccess();
+      
+      // Track successful form submission
+      trackFormSubmission('demo_request', true);
+      trackDemoRequest({
+        name: formData.name,
+        phone: formData.phone,
+        city: formData.city
+      });
+      
+      a11y.announceToScreenReader('Demo request submitted successfully. We will contact you within 24 hours to schedule your free demonstration.');
       
       // Clear success message after 5 seconds
       setTimeout(() => setSubmitStatus(null), 5000);
@@ -87,15 +110,22 @@ export default function Contact() {
     } catch (error) {
       console.error('Form submission error:', error);
       setSubmitStatus('error');
+      animateError();
+      
+      // Track failed form submission
+      trackFormSubmission('demo_request', false);
+      
+      a11y.announceToScreenReader('Form submission failed. Please try again or call us directly.');
     } finally {
       setIsSubmitting(false);
+      animateSubmission(false);
     }
   };
 
   return (
     <section id="contact" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16 px-4 md:px-0">
+        <div ref={headerRef} className="text-center mb-12 md:mb-16 px-4 md:px-0">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-readable">
             Ready to Transform Your Cooking?
           </h2>
@@ -107,7 +137,7 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Contact Form - Mobile Optimized */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 card-mobile">
+          <div ref={formRef} className="bg-white rounded-2xl shadow-lg p-6 md:p-8 card-mobile card-animated">
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 text-readable">Request a FREE Demo</h3>
             
             {submitStatus === 'success' && (
@@ -130,7 +160,7 @@ export default function Contact() {
               </div>
             )}
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form ref={formAnimationRef} onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name *
@@ -141,7 +171,7 @@ export default function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base input-animated ${
                     errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                   placeholder="Enter your full name"
@@ -161,7 +191,7 @@ export default function Contact() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base input-animated ${
                     errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                   placeholder="Enter your 10-digit mobile number"
@@ -182,7 +212,7 @@ export default function Contact() {
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base input-animated ${
                     errors.city ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                   placeholder="Enter your city"
@@ -202,15 +232,16 @@ export default function Contact() {
                   value={formData.comments}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base resize-vertical"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base resize-vertical input-animated"
                   placeholder="Any specific questions or preferences for your demo?"
                 />
               </div>
 
               <button
+                ref={submitButtonRef}
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 touch-target min-h-12 text-base"
+                className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-orange-300 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 touch-target min-h-12 text-base btn-animated"
               >
                 {isSubmitting ? (
                   <>
@@ -225,8 +256,8 @@ export default function Contact() {
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div ref={contactInfoRef} className="space-y-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8 card-animated">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
               
               <div className="space-y-6">
@@ -266,7 +297,7 @@ export default function Contact() {
             </div>
 
             {/* Presenter Information */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8 card-animated">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Your Demo Presenter</h3>
               
               <div className="text-center">
@@ -281,23 +312,23 @@ export default function Contact() {
                 </p>
                 
                 <div className="flex justify-center gap-4">
-                  <a 
-                    href="#" 
-                    className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-colors"
+                  <a
+                    href="#"
+                    className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     aria-label="Facebook"
                   >
                     <Facebook className="h-5 w-5" />
                   </a>
-                  <a 
-                    href="#" 
-                    className="bg-pink-600 hover:bg-pink-700 text-white p-3 rounded-lg transition-colors"
+                  <a
+                    href="#"
+                    className="bg-pink-600 hover:bg-pink-700 text-white p-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
                     aria-label="Instagram"
                   >
                     <Instagram className="h-5 w-5" />
                   </a>
-                  <a 
-                    href="#" 
-                    className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg transition-colors"
+                  <a
+                    href="#"
+                    className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                     aria-label="YouTube"
                   >
                     <Youtube className="h-5 w-5" />

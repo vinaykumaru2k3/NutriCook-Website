@@ -1,6 +1,14 @@
 import { CheckCircle, Users, MapPin, HeadphonesIcon, TrendingUp, Shield } from 'lucide-react';
+import { useAnimatedRef } from '../hooks/useAnimations';
+import { trackButtonClick } from '../utils/analytics';
 
 export default function Dealer() {
+  // Animation refs
+  const headerRef = useAnimatedRef('fadeInUp', 0);
+  const contentRef = useAnimatedRef('fadeInLeft', 200);
+  const imageRef = useAnimatedRef('fadeInRight', 400);
+  const trustIndicatorsRef = useAnimatedRef('fadeInUp', 600);
+
   const benefits = [
     {
       icon: TrendingUp,
@@ -38,19 +46,19 @@ export default function Dealer() {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+    <section id="dealer" className="py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
-          <div className="space-y-8">
-            <div className="space-y-4">
+          <div ref={contentRef} className="space-y-8">
+            <div ref={headerRef} className="space-y-4">
               <h2 className="text-4xl font-bold text-gray-900 leading-tight">
                 Join Our Mission: Become a{' '}
                 <span className="text-orange-500">NutriCook Partner</span>
               </h2>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Help us bring healthy living to more families across India while building 
-                a rewarding business for yourself. Join our network of successful partners 
+                Help us bring healthy living to more families across India while building
+                a rewarding business for yourself. Join our network of successful partners
                 who are making a difference in their communities.
               </p>
             </div>
@@ -64,7 +72,7 @@ export default function Dealer() {
                 {benefits.map((benefit, index) => {
                   const IconComponent = benefit.icon;
                   return (
-                    <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+                    <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-white shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 card-animated">
                       <div className="flex-shrink-0">
                         <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
                           <IconComponent className="w-6 h-6 text-orange-600" />
@@ -87,8 +95,11 @@ export default function Dealer() {
             {/* CTA Button */}
             <div className="pt-6">
               <button
-                onClick={handleDealerInquiry}
-                className="inline-flex items-center px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => {
+                  handleDealerInquiry();
+                  trackButtonClick('learn_more_about_dealership', 'dealer_section');
+                }}
+                className="inline-flex items-center px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl btn-animated"
               >
                 <Users className="w-5 h-5 mr-2" />
                 Learn More About Dealership
@@ -100,10 +111,10 @@ export default function Dealer() {
           </div>
 
           {/* Right Column - Professional Image */}
-          <div className="relative">
+          <div ref={imageRef} className="relative">
             <div className="relative overflow-hidden rounded-2xl shadow-2xl">
               <img
-                src="/images/dealer-partnership.jpg"
+                src="https://thumbs.dreamstime.com/b/two-businessmen-shake-hands-large-hall-signifying-global-agreement-partnership-two-businessmen-shake-hands-large-365343995.jpg"
                 alt="Successful NutriCook dealer with happy customers"
                 className="w-full h-[600px] object-cover"
                 onError={(e) => {
@@ -130,7 +141,7 @@ export default function Dealer() {
         </div>
 
         {/* Trust Indicators */}
-        <div className="mt-16 pt-12 border-t border-gray-200">
+        <div ref={trustIndicatorsRef} className="mt-16 pt-12 border-t border-gray-200">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-semibold text-gray-900 mb-4">
               Built on Trust & Excellence

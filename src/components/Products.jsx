@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { ArrowRight, Star, Shield, Zap } from 'lucide-react';
+import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
+import { smoothScrollTo } from '../utils/animations';
+import { trackButtonClick } from '../utils/analytics';
 import LazyImage from './ui/LazyImage';
 
 // Product data structure with specifications, pricing, and features
@@ -113,6 +116,12 @@ const products = [
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  
+  // Animation refs
+  const headerRef = useAnimatedRef('fadeInUp', 0);
+  const filtersRef = useAnimatedRef('fadeInUp', 200);
+  const productsGridRef = useStaggerAnimation(6, 150);
+  const ctaRef = useAnimatedRef('scaleIn', 400);
 
   const categories = [
     { id: 'all', name: 'All Products' },
@@ -130,7 +139,8 @@ export default function Products() {
     // Handle learn more click - could open modal, navigate to detail page, etc.
     console.log('Learn more clicked for product:', productId);
     // For now, scroll to contact section to request demo
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    smoothScrollTo('contact', { offset: 80, duration: 800 });
+    trackButtonClick('learn_more', 'products_section');
   };
 
   const formatPrice = (price) => {
@@ -146,7 +156,7 @@ export default function Products() {
     <div className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <div ref={headerRef} className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Explore the NutriCook Range
           </h2>
@@ -157,12 +167,12 @@ export default function Products() {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div ref={filtersRef} className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
                 selectedCategory === category.id
                   ? 'bg-orange-500 text-white'
                   : 'bg-white text-gray-700 hover:bg-orange-50 hover:text-orange-600'
@@ -174,11 +184,11 @@ export default function Products() {
         </div>
 
         {/* Products Grid - Responsive Optimization */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 grid-responsive">
+        <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 grid-responsive">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group card-mobile"
+              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group card-mobile card-animated"
             >
               {/* Product Image */}
               <div className="relative overflow-hidden">
@@ -280,7 +290,7 @@ export default function Products() {
                 {/* Learn More Button */}
                 <button
                   onClick={() => handleLearnMore(product.id)}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group touch-target min-h-12 text-base"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group touch-target min-h-12 text-base btn-animated"
                 >
                   Learn More
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
@@ -291,13 +301,16 @@ export default function Products() {
         </div>
 
         {/* Call to Action */}
-        <div className="text-center mt-12">
+        <div ref={ctaRef} className="text-center mt-12">
           <p className="text-gray-600 mb-6">
             Want to see these products in action? Book a free home demonstration.
           </p>
           <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2"
+            onClick={() => {
+              smoothScrollTo('contact', { offset: 80, duration: 800 });
+              trackButtonClick('request_free_demo', 'products_section');
+            }}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2 btn-animated"
           >
             Request FREE Demo
             <ArrowRight className="w-5 h-5" />

@@ -1,7 +1,15 @@
 import { Heart, Leaf, IndianRupee, Shield, Zap, Users } from 'lucide-react';
+import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
+import { trackButtonClick } from '../utils/analytics';
 import Container from './ui/Container';
 
 const Benefits = () => {
+  // Animation refs
+  const headerRef = useAnimatedRef('fadeInUp', 0);
+  const benefitsGridRef = useStaggerAnimation(3, 200);
+  const additionalFeaturesRef = useAnimatedRef('fadeInUp', 400);
+  const ctaRef = useAnimatedRef('scaleIn', 600);
+
   const benefits = [
     {
       icon: Heart,
@@ -72,7 +80,7 @@ const Benefits = () => {
     <section className="py-16 md:py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
       <Container>
         {/* Section Header */}
-        <div className="text-center mb-12 md:mb-16 px-4 md:px-0">
+        <div ref={headerRef} className="text-center mb-12 md:mb-16 px-4 md:px-0">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-readable">
             More Than Cookware.{' '}
             <span className="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
@@ -85,13 +93,13 @@ const Benefits = () => {
         </div>
 
         {/* Main Benefits Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 mb-16 grid-responsive">
+        <div ref={benefitsGridRef} className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10 mb-16 grid-responsive">
           {benefits.map((benefit, index) => {
             const Icon = benefit.icon;
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group card-mobile"
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group card-mobile card-animated"
               >
                 <div className={`${benefit.bgColor} p-6 md:p-8`}>
                   <div className={`w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-r ${benefit.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
@@ -125,7 +133,7 @@ const Benefits = () => {
         </div>
 
         {/* Additional Features */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 card-mobile">
+        <div ref={additionalFeaturesRef} className="bg-white rounded-2xl shadow-lg p-6 md:p-8 card-mobile card-animated">
           <div className="text-center mb-8">
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-2 text-readable">
               Why Choose NutriCook?
@@ -157,7 +165,7 @@ const Benefits = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-12 md:mt-16 px-4 md:px-0">
-          <div className="bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl p-6 md:p-8 text-white">
+          <div ref={ctaRef} className="bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl p-6 md:p-8 text-white">
             <h3 className="text-xl md:text-2xl font-bold mb-4 text-readable">
               Ready to Experience the Difference?
             </h3>
@@ -165,8 +173,11 @@ const Benefits = () => {
               Book your free home demonstration and see these benefits in action.
             </p>
             <button
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-green-600 hover:bg-gray-50 font-semibold py-3 px-8 rounded-xl transition-colors duration-200 inline-flex items-center gap-2 touch-target min-h-12 text-base"
+              onClick={() => {
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                trackButtonClick('book_free_demo', 'benefits_section');
+              }}
+              className="bg-white text-green-600 hover:bg-gray-50 font-semibold py-3 px-8 rounded-xl transition-colors duration-200 inline-flex items-center gap-2 touch-target min-h-12 text-base focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
             >
               Book FREE Demo
               <Heart className="w-5 h-5" />

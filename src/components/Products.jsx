@@ -153,29 +153,29 @@ export default function Products() {
   };
 
   return (
-    <div className="py-16 bg-gray-50">
+    <div className="py-12 sm:py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div ref={headerRef} className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        <div ref={headerRef} className="text-center mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
             Explore the NutriCook Range
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover our complete collection of surgical steel cookware designed for healthy, 
             oil-free cooking. Each piece comes with a 30-year guarantee.
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div ref={filtersRef} className="flex flex-wrap justify-center gap-2 mb-8">
+        {/* Category Filter - Mobile Optimized */}
+        <div ref={filtersRef} className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8 px-2">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 ${
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 min-h-[44px] flex items-center ${
                 selectedCategory === category.id
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-white text-gray-700 hover:bg-orange-50 hover:text-orange-600'
+                  ? 'bg-orange-500 text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-orange-50 hover:text-orange-600 shadow-sm'
               }`}
             >
               {category.name}
@@ -183,126 +183,127 @@ export default function Products() {
           ))}
         </div>
 
-        {/* Products Grid - Responsive Optimization */}
-        <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 grid-responsive">
+        {/* Products Grid - Mobile Optimized */}
+        <div ref={productsGridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {filteredProducts.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group card-mobile card-animated"
+              className="bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
             >
               {/* Product Image */}
               <div className="relative overflow-hidden">
                 <LazyImage
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-48 sm:h-56 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300 responsive-image"
+                  className="w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
                   placeholder={
-                    <div className="w-full h-48 sm:h-56 md:h-64 bg-gray-200 animate-pulse flex items-center justify-center">
-                      <div className="text-gray-400 text-sm">Loading image...</div>
+                    <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gray-200 animate-pulse flex items-center justify-center">
+                      <div className="text-gray-400 text-xs">Loading...</div>
                     </div>
                   }
                   fallback={
-                    <div className="w-full h-48 sm:h-56 md:h-64 bg-gray-100 flex items-center justify-center">
-                      <div className="text-center text-gray-500">
-                        <div className="text-lg font-medium">{product.name}</div>
-                        <div className="text-sm">Image unavailable</div>
+                    <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gray-100 flex items-center justify-center">
+                      <div className="text-center text-gray-500 p-2">
+                        <div className="text-xs sm:text-sm font-medium">{product.name}</div>
+                        <div className="text-xs">Image unavailable</div>
                       </div>
                     </div>
                   }
                 />
                 
-                {/* Badges */}
-                <div className="absolute top-4 left-4 flex flex-col gap-2">
+                {/* Badges - Mobile Optimized */}
+                <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1 sm:gap-2">
                   {product.isBestseller && (
-                    <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                      <Star className="w-3 h-3" />
-                      Bestseller
+                    <span className="bg-orange-500 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                      <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                      <span className="hidden sm:inline">Bestseller</span>
+                      <span className="sm:hidden">Best</span>
                     </span>
                   )}
                   {product.isNew && (
-                    <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                    <span className="bg-green-500 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium">
                       New
                     </span>
                   )}
                 </div>
 
-                {/* Discount Badge */}
+                {/* Discount Badge - Original Format */}
                 {product.originalPrice && (
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                      Save {formatPrice(product.originalPrice - product.price)}
+                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
+                    <span className="bg-red-500 text-white px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium">
+                      <span className="hidden sm:inline">Save </span>{formatPrice(product.originalPrice - product.price)}
                     </span>
                   </div>
                 )}
               </div>
 
-              {/* Product Info */}
-              <div className="p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 text-readable">
+              {/* Product Info - Compact Mobile */}
+              <div className="p-2.5 sm:p-4 md:p-6">
+                <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 mb-1.5 sm:mb-2 leading-tight">
                   {product.name}
                 </h3>
                 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-600 text-xs mb-2 sm:mb-3 line-clamp-2 leading-relaxed">
                   {product.description}
                 </p>
 
-                {/* Specifications */}
-                <div className="flex justify-between text-sm text-gray-500 mb-4">
-                  <span>Capacity: {product.capacity}</span>
-                  <span>Size: {product.dimensions}</span>
+                {/* Specifications - Mobile Compact */}
+                <div className="flex justify-between text-xs text-gray-500 mb-2 sm:mb-3">
+                  <span>{product.capacity}</span>
+                  <span>{product.dimensions}</span>
                 </div>
 
-                {/* Features */}
-                <div className="mb-4">
+                {/* Features - Mobile Compact */}
+                <div className="mb-2 sm:mb-3">
                   <div className="flex flex-wrap gap-1">
                     {product.features.slice(0, 2).map((feature, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-1 text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"
+                        className="inline-flex items-center gap-0.5 text-xs bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded"
                       >
-                        {index === 0 && <Shield className="w-3 h-3" />}
-                        {index === 1 && <Zap className="w-3 h-3" />}
-                        {feature}
+                        {index === 0 && <Shield className="w-2.5 h-2.5" />}
+                        {index === 1 && <Zap className="w-2.5 h-2.5" />}
+                        <span className="truncate">{feature.length > 12 ? feature.substring(0, 12) + '...' : feature}</span>
                       </span>
                     ))}
                   </div>
                   {product.features.length > 2 && (
                     <span className="text-xs text-gray-500 mt-1 block">
-                      +{product.features.length - 2} more features
+                      +{product.features.length - 2} more
                     </span>
                   )}
                 </div>
 
-                {/* Price */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-gray-900">
+                {/* Price - Original Format Compact */}
+                <div className="flex items-center justify-between mb-2 sm:mb-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                    <span className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
                       {formatPrice(product.price)}
                     </span>
                     {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">
+                      <span className="text-xs text-gray-500 line-through">
                         {formatPrice(product.originalPrice)}
                       </span>
                     )}
                   </div>
                 </div>
 
-                {/* Learn More Button */}
+                {/* Learn More Button - Compact Mobile */}
                 <button
                   onClick={() => handleLearnMore(product.id)}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 group touch-target min-h-12 text-base btn-animated"
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 sm:py-2.5 px-3 sm:px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group min-h-[40px] sm:min-h-[44px] text-xs sm:text-sm transform hover:scale-105"
                 >
                   Learn More
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
+                  <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-200" />
                 </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div ref={ctaRef} className="text-center mt-12">
-          <p className="text-gray-600 mb-6">
+        {/* Call to Action - Mobile Optimized */}
+        <div ref={ctaRef} className="text-center mt-8 sm:mt-12 px-4">
+          <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
             Want to see these products in action? Book a free home demonstration.
           </p>
           <button
@@ -310,10 +311,10 @@ export default function Products() {
               smoothScrollTo('contact', { offset: 80, duration: 800 });
               trackButtonClick('request_free_demo', 'products_section');
             }}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2 btn-animated"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 sm:px-8 rounded-lg transition-all duration-200 inline-flex items-center gap-2 min-h-[44px] text-sm sm:text-base transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Request FREE Demo
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>

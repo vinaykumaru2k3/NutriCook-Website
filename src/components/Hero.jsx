@@ -30,15 +30,15 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+    <section className="relative min-h-screen mobile-viewport-fix flex items-start justify-center overflow-hidden hero-section pt-16 sm:pt-20 md:items-center md:pt-0">
+      {/* Mobile-Optimized Background */}
       <div className="absolute inset-0 z-0">
-        {/* Background Image */}
+        {/* Background Image - Mobile Optimized */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-teal-50">
           <LazyImage
             src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
             alt="Happy family cooking together with premium cookware"
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-15 sm:opacity-20 md:opacity-25 lg:opacity-30"
             placeholder={
               <div className="w-full h-full bg-gradient-to-br from-green-100 via-white to-teal-100 animate-pulse" />
             }
@@ -46,15 +46,17 @@ const Hero = () => {
           />
         </div>
         
-        {/* Overlay Gradient for Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/70 to-green-50/80"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-white/50 via-transparent to-white/30"></div>
+        {/* Mobile-Optimized Overlay for Better Text Readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/98 via-white/92 to-green-50/95 sm:from-white/96 sm:via-white/88 sm:to-green-50/92 md:from-white/90 md:via-white/75 md:to-green-50/85 lg:from-white/85 lg:via-white/70 lg:to-green-50/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-white/60 sm:from-white/75 sm:to-white/55 md:from-white/65 md:to-white/45 lg:from-white/50 lg:to-white/30"></div>
       </div>
-      {/* Decorative Elements */}
+      
+      {/* Decorative Elements - Mobile Responsive */}
       <div className="absolute inset-0 overflow-hidden z-10 pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-green-200/20 rounded-full opacity-60 animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-teal-200/20 rounded-full opacity-40 animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-32 left-20 w-40 h-40 bg-emerald-200/20 rounded-full opacity-30 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-12 left-2 w-16 h-16 sm:top-16 sm:left-4 sm:w-20 sm:h-20 md:top-20 md:left-10 md:w-32 md:h-32 bg-green-200/12 rounded-full opacity-50 animate-pulse"></div>
+        <div className="absolute top-24 right-2 w-12 h-12 sm:top-32 sm:right-4 sm:w-16 sm:h-16 md:top-40 md:right-20 md:w-24 md:h-24 bg-teal-200/12 rounded-full opacity-35 animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-16 left-2 w-20 h-20 sm:bottom-20 sm:left-4 sm:w-24 sm:h-24 md:bottom-32 md:left-20 md:w-40 md:h-40 bg-emerald-200/12 rounded-full opacity-25 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 right-1 w-8 h-8 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-green-300/10 rounded-full opacity-40 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
       </div>
 
       {/* Video Modal */}
@@ -78,61 +80,70 @@ const Hero = () => {
         </div>
       )}
 
-      {/* Hero Content */}
-      <Container className="relative z-20 text-center">
-        <div ref={heroContentRef} className="max-w-6xl mx-auto space-y-8 md:space-y-12">
+      {/* Hero Content - Mobile Optimized */}
+      <Container className="relative z-20 text-center px-4 sm:px-6 lg:px-8 hero-mobile-container mobile-scroll-container">
+        <div ref={heroContentRef} className="max-w-6xl mx-auto space-y-4 sm:space-y-6 lg:space-y-8 animate-mobile-optimized">
 
-          {/* Main Headline - Optimized Responsive Typography */}
-          <div className="space-y-4 md:space-y-6">
-            <h1 ref={headlineRef} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight px-4 md:px-0 text-readable">
-              <span className="block bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent drop-shadow-sm">
+          {/* Main Headline - Mobile-First Typography */}
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+            <h1 ref={headlineRef} className="font-bold leading-[1.1] sm:leading-tight">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-gray-900 mb-1 sm:mb-2">
                 The Healthiest
               </span>
-              <span className="block bg-gradient-to-r from-green-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent drop-shadow-sm">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl bg-gradient-to-r from-green-600 via-teal-600 to-emerald-600 bg-clip-text text-transparent mb-1 sm:mb-2">
                 Investment
               </span>
-              <span className="block text-gray-800 drop-shadow-sm">
+              <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-gray-800">
                 Your Family Will Ever Make
               </span>
             </h1>
 
-            <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light px-4 md:px-0 drop-shadow-sm text-readable-large">
+            <p ref={subtitleRef} className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-light px-2 sm:px-0">
               Revolutionary <span className="font-semibold text-green-700">oilless & waterless</span> cooking technology that 
               <span className="font-semibold text-teal-700"> preserves nutrients</span>, enhances flavors, and 
               <span className="font-semibold text-emerald-700"> saves money</span> while keeping your family healthier.
             </p>
           </div>
 
-          {/* CTA Buttons - Enhanced Mobile Optimization */}
-          <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center pt-6 md:pt-8 px-4 md:px-0">
-            <Button
-              onClick={handleDemoClick}
-              variant="primary"
-              size="lg"
-              className="w-full sm:w-auto text-lg font-semibold px-8 md:px-10 py-4 md:py-5 shadow-2xl hover:shadow-green-500/25 transform hover:scale-105 transition-all duration-300 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 rounded-2xl touch-target min-h-14"
-              icon={<ArrowRight className="w-5 h-5 md:w-6 md:h-6" />}
-              iconPosition="right"
+          {/* CTA Buttons - Mobile-First Design */}
+          <div ref={buttonsRef} className="flex flex-row gap-3 justify-center items-center pt-2 sm:pt-4 lg:pt-6 flex-wrap">
+            {/* Primary CTA - Mobile Optimized */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                const element = document.getElementById("contact");
+                if (element) {
+                  const offsetTop = element.offsetTop - 80;
+                  window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                  });
+                }
+                trackButtonClick('request_free_demo', 'hero_section');
+              }}
+              className="flex-1 sm:flex-none bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-sm focus:outline-none focus:ring-4 focus:ring-green-500/50 min-h-[44px] whitespace-nowrap"
+              type="button"
             >
-              Request a FREE Demo
-            </Button>
+              <span>Request FREE Demo</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
 
+            {/* Secondary CTA - Mobile Optimized */}
             <button
               onClick={handlePlayVideo}
-              className="w-full sm:w-auto flex items-center justify-center sm:justify-start space-x-3 md:space-x-4 text-gray-700 hover:text-green-600 transition-all duration-300 group bg-white/90 backdrop-blur-sm rounded-2xl px-4 md:px-6 py-4 md:py-4 shadow-lg hover:shadow-xl border border-gray-200 hover:border-green-200 touch-target min-h-14 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 text-gray-700 hover:text-green-600 transition-all duration-300 group bg-white/95 rounded-xl px-4 py-3 shadow-lg hover:shadow-xl border border-gray-200 hover:border-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 min-h-[44px] whitespace-nowrap"
+              type="button"
             >
-              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110 flex-shrink-0">
-                <Play className="w-5 h-5 md:w-6 md:h-6 text-white ml-1" fill="currentColor" />
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-110 flex-shrink-0">
+                <Play className="w-3 h-3 text-white ml-0.5" fill="currentColor" />
               </div>
-              <div className="text-left">
-                <div className="text-base md:text-lg font-semibold">Watch Demo</div>
-                <div className="text-sm text-gray-500">See it in action</div>
-              </div>
+              <span className="text-sm sm:text-base font-semibold">Watch Demo</span>
             </button>
           </div>
 
           {/* Trust Indicators - Enhanced Mobile Layout */}
-          <div className="pt-12 md:pt-16 px-4 md:px-0">
-            <div ref={trustIndicatorsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
+          <div className="pt-6 sm:pt-8 md:pt-12 px-2 sm:px-4 md:px-0 trust-indicators-mobile">
+            <div ref={trustIndicatorsRef} className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8 max-w-4xl mx-auto">
               {[
                 { icon: Shield, title: "30-Year", subtitle: "Guarantee", color: "from-blue-500 to-blue-600" },
                 { icon: Heart, title: "Surgical Grade", subtitle: "Steel", color: "from-red-500 to-red-600" },
@@ -141,15 +152,15 @@ const Hero = () => {
               ].map((item, index) => {
                 const Icon = item.icon;
                 return (
-                  <div key={index} className="text-center group p-2">
+                  <div key={index} className="text-center group p-1 sm:p-2 trust-indicator-mobile trust-card-mobile animate-mobile-scale-in" style={{ animationDelay: `${index * 150}ms` }}>
                     <div className={cn(
-                      'w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 mx-auto mb-3 md:mb-4 rounded-xl md:rounded-2xl bg-gradient-to-r flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110',
+                      'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 mx-auto mb-2 sm:mb-3 md:mb-4 rounded-xl md:rounded-2xl bg-gradient-to-r flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110',
                       item.color
                     )}>
-                      <Icon className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 text-white" />
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 text-white" />
                     </div>
-                    <div className="text-sm sm:text-base md:text-lg font-bold text-gray-900 drop-shadow-sm leading-tight">{item.title}</div>
-                    <div className="text-xs sm:text-sm md:text-base text-gray-700 drop-shadow-sm">{item.subtitle}</div>
+                    <div className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-gray-900 drop-shadow-sm leading-tight text-mobile-optimized">{item.title}</div>
+                    <div className="text-xs sm:text-xs md:text-sm lg:text-base text-gray-700 drop-shadow-sm text-mobile-optimized">{item.subtitle}</div>
                   </div>
                 );
               })}

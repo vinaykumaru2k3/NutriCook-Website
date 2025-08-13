@@ -149,39 +149,38 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
+    <section id="contact" className="py-12 sm:py-16 lg:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div ref={headerRef} className="text-center mb-12 md:mb-16 px-4 md:px-0">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-readable">
+        <div ref={headerRef} className="text-center mb-8 sm:mb-12 md:mb-16 px-4 md:px-0">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">
             Ready to Transform Your Cooking?
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto text-readable-large">
-            Request your free home demonstration and experience the NutriCook difference firsthand. 
-            Our expert will cook a complete meal at your home using our oilless, waterless technology.
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Request your free home demonstration and experience the NutriCook difference firsthand.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
           {/* Contact Form - Mobile Optimized */}
-          <div ref={formRef} className="bg-white rounded-2xl shadow-lg p-6 md:p-8 card-mobile card-animated">
-            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 text-readable">Request a FREE Demo</h3>
+          <div ref={formRef} className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">Request a FREE Demo</h3>
             
             {submitStatus === 'success' && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
-                <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+              <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-2 sm:gap-3">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 flex-shrink-0" />
                 <div>
-                  <p className="text-green-800 font-medium">Demo Request Submitted!</p>
-                  <p className="text-green-700 text-sm">We'll contact you within 24 hours to schedule your free demonstration.</p>
+                  <p className="text-green-800 font-medium text-sm sm:text-base">Demo Request Submitted!</p>
+                  <p className="text-green-700 text-xs sm:text-sm">We'll contact you within 24 hours to schedule your free demonstration.</p>
                 </div>
               </div>
             )}
             
             {submitStatus === 'error' && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-                <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+              <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 sm:gap-3">
+                <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 text-red-600 flex-shrink-0" />
                 <div>
-                  <p className="text-red-800 font-medium">Submission Failed</p>
-                  <p className="text-red-700 text-sm">Please try again or call us directly.</p>
+                  <p className="text-red-800 font-medium text-sm sm:text-base">Submission Failed</p>
+                  <p className="text-red-700 text-xs sm:text-sm">Please try again or call us directly.</p>
                 </div>
               </div>
             )}
@@ -208,7 +207,7 @@ export default function Contact() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors touch-target text-base input-animated ${
+                  className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors text-base min-h-[44px] ${
                     errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300'
                   }`}
                   placeholder="Enter your full name"
@@ -293,19 +292,19 @@ export default function Contact() {
           </div>
 
           {/* Contact Information */}
-          <div ref={contactInfoRef} className="space-y-8">
-            <div className="bg-white rounded-2xl shadow-lg p-8 card-animated">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
+          <div ref={contactInfoRef} className="space-y-6 sm:space-y-8">
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 md:p-8">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Get in Touch</h3>
               
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-orange-100 p-3 rounded-lg">
-                    <Phone className="h-6 w-6 text-orange-600" />
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="bg-orange-100 p-2 sm:p-3 rounded-lg">
+                    <Phone className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-orange-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 mb-1">Call Us</h4>
-                    <p className="text-gray-600">+91 9448169903</p>
-                    <p className="text-sm text-gray-500">Available 9 AM - 8 PM, Mon-Sat</p>
+                    <h4 className="font-semibold text-gray-900 mb-1 text-sm sm:text-base">Call Us</h4>
+                    <p className="text-gray-600 text-sm sm:text-base">+91 9448169903</p>
+                    <p className="text-xs sm:text-sm text-gray-500">Available 9 AM - 8 PM, Mon-Sat</p>
                   </div>
                 </div>
 

@@ -40,15 +40,32 @@ export const scrollToElement = (element, options = {}) => {
  * Get current active section based on scroll position
  */
 export const getActiveSection = (sections, offset = 100) => {
-  const scrollPosition = window.scrollY + offset;
-
+  const scrollPosition = window.scrollY;
+  const windowHeight = window.innerHeight;
+  
+  // Special case: if we're near the bottom of the page, return the last section
+  if (scrollPosition + windowHeight >= document.documentElement.scrollHeight - 100) {
+    return sections[sections.length - 1];
+  }
+  
+  // Find the section that's currently most in view
+  let activeSection = sections[0];
+  
   for (let i = sections.length - 1; i >= 0; i--) {
     const section = document.getElementById(sections[i]);
-    if (section && section.offsetTop <= scrollPosition) {
-      return sections[i];
+    if (!section) continue;
+    
+    const rect = section.getBoundingClientRect();
+    const sectionTop = rect.top + scrollPosition;
+    
+    // If the section top is above the current scroll position (plus offset), it's active
+    if (sectionTop <= scrollPosition + offset) {
+      activeSection = sections[i];
+      break;
     }
   }
-  return sections[0];
+  
+  return activeSection;
 };
 
 /**

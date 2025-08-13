@@ -23,6 +23,22 @@ export default function Contact() {
   const { formRef: formAnimationRef, animateSubmission, animateSuccess, animateError } = useFormAnimation();
   const submitButtonRef = useLoadingAnimation(isSubmitting);
 
+  // Check for success parameter from FormSubmit.co redirect
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+      setSubmitStatus('success');
+      animateSuccess();
+      a11y.announceToScreenReader('Demo request submitted successfully. We will contact you within 24 hours to schedule your free demonstration.');
+      
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setSubmitStatus(null), 5000);
+    }
+  }, []);
+
   const validateForm = () => {
     const newErrors = {};
     
@@ -80,32 +96,42 @@ export default function Contact() {
     animateSubmission(true);
     
     try {
-      // Simulate form submission - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Create FormData for FormSubmit.co
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append('name', formData.name);
+      formDataToSubmit.append('phone', formData.phone);
+      formDataToSubmit.append('city', formData.city);
+      formDataToSubmit.append('comments', formData.comments || 'No additional comments');
+      formDataToSubmit.append('_subject', `New Demo Request from ${formData.name}`);
+      formDataToSubmit.append('_captcha', 'false');
+      formDataToSubmit.append('_template', 'table');
       
-      // For now, just log the form data
-      console.log('Form submitted:', {
-        ...formData,
-        source: 'contact',
-        timestamp: new Date().toISOString()
+      // Submit to FormSubmit.co
+      const response = await fetch('https://formsubmit.co/nutricooksmg@gmail.com', {
+        method: 'POST',
+        body: formDataToSubmit
       });
       
-      setSubmitStatus('success');
-      setFormData({ name: '', phone: '', city: '', comments: '' });
-      animateSuccess();
-      
-      // Track successful form submission
-      trackFormSubmission('demo_request', true);
-      trackDemoRequest({
-        name: formData.name,
-        phone: formData.phone,
-        city: formData.city
-      });
-      
-      a11y.announceToScreenReader('Demo request submitted successfully. We will contact you within 24 hours to schedule your free demonstration.');
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => setSubmitStatus(null), 5000);
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', phone: '', city: '', comments: '' });
+        animateSuccess();
+        
+        // Track successful form submission
+        trackFormSubmission('demo_request', true);
+        trackDemoRequest({
+          name: formData.name,
+          phone: formData.phone,
+          city: formData.city
+        });
+        
+        a11y.announceToScreenReader('Demo request submitted successfully. We will contact you within 24 hours to schedule your free demonstration.');
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } else {
+        throw new Error('Form submission failed');
+      }
       
     } catch (error) {
       console.error('Form submission error:', error);
@@ -160,7 +186,18 @@ export default function Contact() {
               </div>
             )}
             
-            <form ref={formAnimationRef} onSubmit={handleSubmit} className="space-y-6">
+            <form 
+              ref={formAnimationRef} 
+              onSubmit={handleSubmit} 
+              action="https://formsubmit.co/nutricooksmg@gmail.com"
+              method="POST"
+              className="space-y-6"
+            >
+              {/* FormSubmit.co configuration fields */}
+              <input type="hidden" name="_subject" value="New Demo Request from NutriCook Website" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_next" value={window.location.origin + window.location.pathname + "?success=true"} />
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name *
@@ -267,7 +304,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Call Us</h4>
-                    <p className="text-gray-600">+91 98765 43210</p>
+                    <p className="text-gray-600">+91 9448169903</p>
                     <p className="text-sm text-gray-500">Available 9 AM - 8 PM, Mon-Sat</p>
                   </div>
                 </div>
@@ -278,7 +315,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Email Us</h4>
-                    <p className="text-gray-600">demo@nutricook.com</p>
+                    <p className="text-gray-600">nutricooksmg@gmail.com</p>
                     <p className="text-sm text-gray-500">We'll respond within 24 hours</p>
                   </div>
                 </div>
@@ -289,7 +326,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-1">Service Areas</h4>
-                    <p className="text-gray-600">Mumbai, Pune, Bangalore, Delhi NCR</p>
+                    <p className="text-gray-600">Kolar, Bangalore, Shivamogga, Mysuru, Chennai</p>
                     <p className="text-sm text-gray-500">Expanding to more cities soon</p>
                   </div>
                 </div>
@@ -302,10 +339,10 @@ export default function Contact() {
               
               <div className="text-center">
                 <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-bold text-orange-600">RK</span>
+                  <span className="text-2xl font-bold text-orange-600">UK</span>
                 </div>
-                <h4 className="text-xl font-semibold text-gray-900 mb-2">Rajesh Kumar</h4>
-                <p className="text-gray-600 mb-4">S/o Ramesh Kumar</p>
+                <h4 className="text-xl font-semibold text-gray-900 mb-2">Mr. Uday Kumar M H</h4>
+                <p className="text-gray-600 mb-4">S/o Hucchu Rao</p>
                 <p className="text-sm text-gray-500 mb-6">
                   Certified NutriCook specialist with 5+ years of experience in healthy cooking demonstrations. 
                   Passionate about helping families discover the benefits of oil-free, water-free cooking.

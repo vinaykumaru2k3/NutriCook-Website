@@ -2,6 +2,10 @@ import { useState, useEffect, lazy, Suspense } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import Testimonials from './components/Testimonials';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
+import WarrantyPolicy from './components/WarrantyPolicy';
+import ReturnPolicy from './components/ReturnPolicy';
 import LazySection from './components/ui/LazySection';
 import LoadingState from './components/ui/LoadingState';
 import { BenefitsSkeleton, ProductCardSkeleton } from './components/ui/SkeletonLoader';
@@ -25,10 +29,26 @@ if (import.meta.env.DEV) {
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [currentPage, setCurrentPage] = useState('home');
   
   const sections = ['home', 'why-nutricook', 'products', 'demo', 'dealer', 'contact'];
 
   useEffect(() => {
+    // Check URL parameters for page routing
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get('page');
+    if (page === 'privacy-policy') {
+      setCurrentPage('privacy-policy');
+    } else if (page === 'terms-of-service') {
+      setCurrentPage('terms-of-service');
+    } else if (page === 'warranty-policy') {
+      setCurrentPage('warranty-policy');
+    } else if (page === 'return-policy') {
+      setCurrentPage('return-policy');
+    } else {
+      setCurrentPage('home');
+    }
+
     // Initialize comprehensive performance optimizations
     initPerformanceOptimizations();
     
@@ -39,8 +59,10 @@ function App() {
     const analyticsCleanup = initializeAnalytics();
 
     const handleScroll = throttle(() => {
-      const currentSection = getActiveSection(sections);
-      setActiveSection(currentSection);
+      if (currentPage === 'home') {
+        const currentSection = getActiveSection(sections);
+        setActiveSection(currentSection);
+      }
     }, 100);
 
     window.addEventListener('scroll', handleScroll);
@@ -54,8 +76,29 @@ function App() {
         analyticsCleanup.destroy();
       }
     };
-  }, []);
+  }, [currentPage]);
 
+  // Render Privacy Policy page
+  if (currentPage === 'privacy-policy') {
+    return <PrivacyPolicy />;
+  }
+
+  // Render Terms of Service page
+  if (currentPage === 'terms-of-service') {
+    return <TermsOfService />;
+  }
+
+  // Render Warranty Policy page
+  if (currentPage === 'warranty-policy') {
+    return <WarrantyPolicy />;
+  }
+
+  // Render Return Policy page
+  if (currentPage === 'return-policy') {
+    return <ReturnPolicy />;
+  }
+
+  // Render main homepage
   return (
     <div className="min-h-screen bg-white">
       {/* Skip to main content link for accessibility */}

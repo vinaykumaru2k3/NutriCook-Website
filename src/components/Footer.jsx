@@ -56,13 +56,13 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+919876543210" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
-                  +91 98765 43210
+                <a href="tel:+919448169903" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                  +91 9448169903
                 </a>
               </li>
               <li>
-                <a href="mailto:demo@nutricook.com" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
-                  demo@nutricook.com
+                <a href="mailto:nutricooksmg@gmail.com" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                  nutricooksmg@gmail.com
                 </a>
               </li>
             </ul>
@@ -73,22 +73,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                <a href="?page=privacy-policy" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                <a href="?page=terms-of-service" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Terms of Service
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                <a href="?page=warranty-policy" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Warranty Policy
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
+                <a href="?page=return-policy" className="text-gray-300 hover:text-orange-500 transition-colors focus:underline focus:outline-none focus:ring-2 focus:ring-orange-500 rounded">
                   Return Policy
                 </a>
               </li>

@@ -2,13 +2,13 @@
  * Animation utilities for smooth interactions and scroll-triggered animations
  */
 
-// Animation configuration
+// Animation configuration - More subtle and reliable
 export const ANIMATION_CONFIG = {
   duration: {
-    fast: 200,
-    normal: 300,
-    slow: 500,
-    slower: 800
+    fast: 150,
+    normal: 250,
+    slow: 400,
+    slower: 500  // Reduced from 800ms
   },
   easing: {
     ease: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -18,9 +18,9 @@ export const ANIMATION_CONFIG = {
     bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'
   },
   stagger: {
-    short: 100,
-    medium: 150,
-    long: 200
+    short: 50,   // Reduced from 100ms
+    medium: 75,  // Reduced from 150ms
+    long: 100    // Reduced from 200ms
   }
 };
 
@@ -34,12 +34,12 @@ export const getAnimationDuration = (duration) => {
   return prefersReducedMotion() ? 0 : duration;
 };
 
-// Intersection Observer for scroll animations
+// Intersection Observer for scroll animations - More reliable
 export class ScrollAnimationObserver {
   constructor(options = {}) {
     this.defaultOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
+      threshold: 0.05,  // Reduced threshold for earlier trigger
+      rootMargin: '50px 0px 0px 0px',  // Trigger earlier, more forgiving
       ...options
     };
     
@@ -63,37 +63,67 @@ export class ScrollAnimationObserver {
   animateElement(element) {
     const animationType = element.dataset.animation || 'fadeInUp';
     const delay = parseInt(element.dataset.delay) || 0;
-    const duration = parseInt(element.dataset.duration) || ANIMATION_CONFIG.duration.slower;
+    const duration = parseInt(element.dataset.duration) || ANIMATION_CONFIG.duration.normal;
     
-    // Apply animation with delay
+    // Ensure element is visible first (fallback)
+    element.style.opacity = '1';
+    element.style.visibility = 'visible';
+    
+    // Apply subtle animation with delay
     setTimeout(() => {
       element.classList.add('animate-in');
       element.style.setProperty('--animation-duration', `${getAnimationDuration(duration)}ms`);
       
-      // Trigger custom animation based on type
+      // Trigger subtle animation based on type
       switch (animationType) {
         case 'fadeInUp':
-          this.fadeInUp(element);
+          this.subtleFadeInUp(element);
           break;
         case 'fadeInLeft':
-          this.fadeInLeft(element);
+          this.subtleFadeInLeft(element);
           break;
         case 'fadeInRight':
-          this.fadeInRight(element);
+          this.subtleFadeInRight(element);
           break;
         case 'scaleIn':
-          this.scaleIn(element);
+          this.subtleScaleIn(element);
           break;
         case 'slideInUp':
-          this.slideInUp(element);
+          this.subtleSlideInUp(element);
           break;
         default:
-          this.fadeInUp(element);
+          this.subtleFadeInUp(element);
       }
-    }, delay);
+    }, Math.min(delay, 200)); // Cap delay at 200ms
   }
 
-  fadeInUp(element) {
+  // Subtle animation methods
+  subtleFadeInUp(element) {
+    element.style.transition = `opacity ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}, transform ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+    element.style.opacity = '1';
+    element.style.transform = 'translateY(0)';
+  }
+
+  subtleFadeInLeft(element) {
+    element.style.transition = `opacity ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}, transform ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+    element.style.opacity = '1';
+    element.style.transform = 'translateX(0)';
+  }
+
+  subtleFadeInRight(element) {
+    element.style.transition = `opacity ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}, transform ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+    element.style.opacity = '1';
+    element.style.transform = 'translateX(0)';
+  }
+
+  subtleScaleIn(element) {
+    element.style.transition = `opacity ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}, transform ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+    element.style.opacity = '1';
+    element.style.transform = 'scale(1)';
+  }
+
+  subtleSlideInUp(element) {
+    element.style.transition = `opacity ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}, transform ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
     element.style.opacity = '1';
     element.style.transform = 'translateY(0)';
   }
@@ -232,8 +262,7 @@ export const addLoadingAnimation = (button, isLoading) => {
 export const smoothScrollTo = (target, options = {}) => {
   const {
     offset = 80,
-    duration = 800,
-    easing = ANIMATION_CONFIG.easing.easeInOut
+    duration = 800
   } = options;
 
   const element = typeof target === 'string' 
@@ -325,60 +354,157 @@ export const addNavigationAnimation = (nav) => {
   return () => window.removeEventListener('scroll', updateNavigation);
 };
 
-// Initialize all animations
+// Initialize all animations with reliability safeguards
 export const initializeAnimations = () => {
+  // Ensure all content is visible first (critical fix)
+  const ensureContentVisible = () => {
+    const allElements = document.querySelectorAll('[data-animation], .animate-on-scroll');
+    allElements.forEach(element => {
+      element.style.opacity = '1';
+      element.style.visibility = 'visible';
+    });
+  };
+  
+  // Run immediately and after delays as fallbacks
+  ensureContentVisible();
+  setTimeout(ensureContentVisible, 100);
+  setTimeout(ensureContentVisible, 500);
+  
   // Create scroll animation observer
   const scrollObserver = new ScrollAnimationObserver();
   
   // Observe all elements with data-animation attribute
   const animatedElements = document.querySelectorAll('[data-animation]');
   animatedElements.forEach(element => {
+    // Ensure element is visible before observing
+    element.style.opacity = '1';
+    element.style.visibility = 'visible';
     scrollObserver.observe(element);
   });
   
-  // Add button hover animations
-  const buttons = document.querySelectorAll('button, .btn-primary, .btn-secondary');
-  buttons.forEach(addButtonHoverAnimation);
-  
-  // Add input focus animations
-  const inputs = document.querySelectorAll('input, textarea, select');
-  inputs.forEach(addInputFocusAnimation);
-  
-  // Add card hover animations
-  const cards = document.querySelectorAll('.card, [data-card]');
-  cards.forEach(addCardHoverAnimation);
-  
-  // Add navigation animation
-  const navigation = document.querySelector('nav, [data-navigation]');
-  if (navigation) {
-    addNavigationAnimation(navigation);
+  // Add button hover animations (non-critical)
+  try {
+    const buttons = document.querySelectorAll('button, .btn-primary, .btn-secondary');
+    buttons.forEach(addButtonHoverAnimation);
+  } catch (e) {
+    console.warn('Button animations failed:', e);
   }
+  
+  // Add input focus animations (non-critical)
+  try {
+    const inputs = document.querySelectorAll('input, textarea, select');
+    inputs.forEach(addInputFocusAnimation);
+  } catch (e) {
+    console.warn('Input animations failed:', e);
+  }
+  
+  // Add card hover animations (non-critical)
+  try {
+    const cards = document.querySelectorAll('.card, [data-card]');
+    cards.forEach(addCardHoverAnimation);
+  } catch (e) {
+    console.warn('Card animations failed:', e);
+  }
+  
+  // Add navigation animation (non-critical)
+  try {
+    const navigation = document.querySelector('nav, [data-navigation]');
+    if (navigation) {
+      addNavigationAnimation(navigation);
+    }
+  } catch (e) {
+    console.warn('Navigation animations failed:', e);
+  }
+  
+  // Final fallback timer to ensure all content is visible
+  const fallbackTimer = setTimeout(() => {
+    const stillHidden = document.querySelectorAll('[data-animation]:not(.animate-in)');
+    stillHidden.forEach(element => {
+      element.style.opacity = '1';
+      element.style.transform = 'translateY(0)';
+      element.style.visibility = 'visible';
+      element.classList.add('animate-in');
+    });
+  }, 2000);
   
   return {
     scrollObserver,
     destroy: () => {
       scrollObserver.disconnect();
+      clearTimeout(fallbackTimer);
     }
   };
 };
 
-// React hook for animations
-export const useScrollAnimation = (ref, options = {}) => {
-  const { current: observer } = useRef(new ScrollAnimationObserver(options));
+// Scroll animation utility (non-React version)
+export const createScrollAnimation = (element, options = {}) => {
+  const observer = new ScrollAnimationObserver(options);
   
-  useEffect(() => {
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+  if (element) {
+    observer.observe(element);
+  }
+  
+  return {
+    destroy: () => {
+      if (element) {
+        observer.unobserve(element);
       }
-    };
-  }, [ref, observer]);
+    }
+  };
+};
+
+// Simple CSS-based animation system (no JavaScript dependencies)
+export const initSimpleAnimations = () => {
+  // Add CSS animation classes to elements on page load
+  const addSimpleAnimations = () => {
+    // Hero section elements
+    const heroElements = document.querySelectorAll('.hero-section [data-animation]');
+    heroElements.forEach((element, index) => {
+      element.classList.add('animate-css-fade-in');
+      element.classList.add(`animate-css-stagger-${Math.min(index + 1, 4)}`);
+    });
+    
+    // All other animated elements
+    const otherElements = document.querySelectorAll('[data-animation]:not(.hero-section [data-animation])');
+    otherElements.forEach((element, index) => {
+      // Add animation with a slight delay based on scroll position
+      const rect = element.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      
+      if (isVisible) {
+        element.classList.add('animate-css-fade-in');
+      } else {
+        // Add animation when element comes into view
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-css-fade-in');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '50px' });
+        
+        observer.observe(element);
+      }
+    });
+  };
   
-  return observer;
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addSimpleAnimations);
+  } else {
+    addSimpleAnimations();
+  }
+  
+  // Fallback: ensure all content is visible after 1 second
+  setTimeout(() => {
+    const allElements = document.querySelectorAll('[data-animation], .animate-on-scroll');
+    allElements.forEach(element => {
+      element.style.opacity = '1';
+      element.style.visibility = 'visible';
+      element.style.transform = 'translateY(0)';
+    });
+  }, 1000);
 };
 
 // Animation presets

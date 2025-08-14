@@ -7,6 +7,7 @@ const AnimatedSection = forwardRef(({
   animation = 'fadeInUp', 
   delay = 0, 
   className = '',
+  // eslint-disable-next-line no-unused-vars
   as: Component = 'div',
   ...props 
 }, ref) => {

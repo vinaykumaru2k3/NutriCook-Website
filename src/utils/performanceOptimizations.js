@@ -44,7 +44,7 @@ export const prefetchDNS = () => {
   });
 };
 
-// Optimize images with intersection observer
+// Optimize images with intersection observer - Enhanced version
 export const optimizeImageLoading = () => {
   if (!('IntersectionObserver' in window)) return;
 
@@ -53,6 +53,10 @@ export const optimizeImageLoading = () => {
       if (entry.isIntersecting) {
         const img = entry.target;
         
+        // Ensure image is visible immediately
+        img.style.opacity = '1';
+        img.style.visibility = 'visible';
+        
         // Load WebP if supported, fallback to original
         if (img.dataset.srcWebp && supportsWebP()) {
           img.src = img.dataset.srcWebp;
@@ -60,19 +64,46 @@ export const optimizeImageLoading = () => {
           img.src = img.dataset.src;
         }
         
+        // Add loaded class for styling
         img.classList.add('loaded');
+        
+        // Add error handling
+        img.onerror = () => {
+          // Fallback to original src if WebP fails
+          if (img.dataset.src && img.src !== img.dataset.src) {
+            img.src = img.dataset.src;
+          }
+        };
+        
         imageObserver.unobserve(img);
       }
     });
   }, {
-    rootMargin: '50px 0px',
+    rootMargin: '100px 0px', // Increased margin for earlier loading
     threshold: 0.01
   });
 
   // Observe all lazy images
   document.querySelectorAll('img[data-src], img[data-src-webp]').forEach(img => {
+    // Ensure image is visible by default
+    img.style.opacity = '1';
+    img.style.visibility = 'visible';
     imageObserver.observe(img);
   });
+
+  // Simple image visibility fix - non-blocking
+  const ensureImagesVisible = () => {
+    document.querySelectorAll('img').forEach(img => {
+      if (img.src && img.src !== '') {
+        img.style.opacity = '1';
+        img.style.visibility = 'visible';
+      }
+    });
+  };
+
+  // Run a few times with delays, but not continuously
+  setTimeout(ensureImagesVisible, 1000);
+  setTimeout(ensureImagesVisible, 3000);
 };
 
 // Check WebP support

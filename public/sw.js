@@ -90,8 +90,6 @@ self.addEventListener('fetch', (event) => {
 });
 
 async function handleRequest(request) {
-  const url = new URL(request.url);
-  
   // Determine cache strategy based on request type
   if (isImageRequest(request)) {
     return handleImageRequest(request);

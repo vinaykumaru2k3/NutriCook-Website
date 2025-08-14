@@ -94,8 +94,8 @@ const reportMetric = (name, value) => {
   }
   
   // Example implementation for Google Analytics
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'web_vital', {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', 'web_vital', {
       name,
       value: Math.round(value),
       event_category: 'Web Vitals'

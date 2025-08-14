@@ -22,7 +22,7 @@ export const useScrollAnimation = (options = {}) => {
         observerRef.current.disconnect();
       }
     };
-  }, []);
+  }, [options]);
 
   const observe = useCallback((element) => {
     if (observerRef.current && element) {
@@ -41,16 +41,53 @@ export const useScrollAnimation = (options = {}) => {
   return { observe, unobserve };
 };
 
-// Hook for element ref with scroll animation
+// Hook for element ref with scroll animation - More reliable
 export const useAnimatedRef = (animationType = 'fadeInUp', delay = 0) => {
   const ref = useRef(null);
   const { observe } = useScrollAnimation();
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.dataset.animation = animationType;
-      ref.current.dataset.delay = delay.toString();
-      observe(ref.current);
+      const element = ref.current;
+      
+      // Ensure element is always visible (fallback)
+      element.style.opacity = '1';
+      element.style.visibility = 'visible';
+      
+      // Set initial subtle transform for animation
+      switch (animationType) {
+        case 'fadeInUp':
+          element.style.transform = 'translateY(10px)'; // Reduced from typical 30px
+          break;
+        case 'fadeInLeft':
+          element.style.transform = 'translateX(-10px)'; // Reduced from typical 30px
+          break;
+        case 'fadeInRight':
+          element.style.transform = 'translateX(10px)'; // Reduced from typical 30px
+          break;
+        case 'scaleIn':
+          element.style.transform = 'scale(0.98)'; // Very subtle scale
+          break;
+        default:
+          element.style.transform = 'translateY(10px)';
+      }
+      
+      element.dataset.animation = animationType;
+      element.dataset.delay = Math.min(delay, 200).toString(); // Cap delay
+      
+      // Add timeout fallback to ensure animation triggers
+      const fallbackTimer = setTimeout(() => {
+        if (element.style.transform !== 'translateY(0)' && element.style.transform !== 'translateX(0)' && element.style.transform !== 'scale(1)') {
+          element.style.transition = `all ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+          element.style.transform = animationType === 'scaleIn' ? 'scale(1)' : 'translate(0, 0)';
+        }
+      }, 2000); // Fallback after 2 seconds
+      
+      observe(element);
+      
+      return () => {
+        clearTimeout(fallbackTimer);
+      };
     }
   }, [animationType, delay, observe]);
 
@@ -133,8 +170,8 @@ export const useLoadingAnimation = (isLoading) => {
   return elementRef;
 };
 
-// Hook for stagger animations
-export const useStaggerAnimation = (count, delay = 150) => {
+// Hook for stagger animations - More reliable and subtle
+export const useStaggerAnimation = (count, delay = 75) => {
   const containerRef = useRef(null);
   const { observe } = useScrollAnimation();
 
@@ -142,11 +179,40 @@ export const useStaggerAnimation = (count, delay = 150) => {
     if (containerRef.current) {
       const children = containerRef.current.children;
       Array.from(children).forEach((child, index) => {
+        // Ensure child is always visible
+        child.style.opacity = '1';
+        child.style.visibility = 'visible';
+        child.style.transform = 'translateY(5px)'; // Very subtle initial offset
+        
         child.dataset.animation = 'fadeInUp';
-        child.dataset.delay = (index * delay).toString();
+        child.dataset.delay = Math.min(index * delay, 300).toString(); // Cap total delay
+        
+        // Add fallback timer for each child
+        const fallbackTimer = setTimeout(() => {
+          if (child.style.transform !== 'translateY(0)') {
+            child.style.transition = `all ${ANIMATION_CONFIG.duration.normal}ms ${ANIMATION_CONFIG.easing.ease}`;
+            child.style.transform = 'translateY(0)';
+          }
+        }, 2000 + (index * delay));
+        
         observe(child);
+        
+        // Cleanup function
+        const cleanup = () => clearTimeout(fallbackTimer);
+        child._cleanupAnimation = cleanup;
       });
     }
+    
+    return () => {
+      if (containerRef.current) {
+        const children = containerRef.current.children;
+        Array.from(children).forEach((child) => {
+          if (child._cleanupAnimation) {
+            child._cleanupAnimation();
+          }
+        });
+      }
+    };
   }, [count, delay, observe]);
 
   return containerRef;

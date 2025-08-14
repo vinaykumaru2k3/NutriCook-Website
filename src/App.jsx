@@ -14,8 +14,10 @@ import {
 } from "./components/ui/SkeletonLoader";
 import { getActiveSection, throttle } from "./utils/scroll";
 import { initPerformanceOptimizations } from "./utils/performanceOptimizations";
-import { initializeAnimations } from "./utils/animations";
+import { initializeAnimations, initSimpleAnimations } from "./utils/animations";
 import { initializeAnalytics } from "./utils/analytics";
+import { initImagePreloading } from "./utils/imagePreloader";
+// Removed aggressive image fix that was causing infinite loading
 
 // Lazy load components that are below the fold
 const Benefits = lazy(() => import("./components/Benefits"));
@@ -34,9 +36,8 @@ function App() {
   const [activeSection, setActiveSection] = useState("home");
   const [currentPage, setCurrentPage] = useState("home");
 
-  const sections = ["home", "why-nutricook", "products", "dealer", "contact"];
-
   useEffect(() => {
+    const sections = ["home", "why-nutricook", "products", "dealer", "contact"];
     // Check URL parameters for page routing
     const urlParams = new URLSearchParams(window.location.search);
     const page = urlParams.get("page");
@@ -55,8 +56,14 @@ function App() {
     // Initialize comprehensive performance optimizations
     initPerformanceOptimizations();
 
-    // Initialize animations
+    // Initialize image preloading for better image loading
+    initImagePreloading();
+
+    // Initialize animations with fallbacks
     const animationCleanup = initializeAnimations();
+
+    // Initialize simple CSS-based animations as backup
+    initSimpleAnimations();
 
     // Initialize analytics
     const analyticsCleanup = initializeAnalytics();

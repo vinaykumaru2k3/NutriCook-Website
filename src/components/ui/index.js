@@ -4,16 +4,16 @@ export { default as Card } from './Card';
 export { default as Container } from './Container';
 
 // Re-export with named exports for convenience
-import Button from './Button';
-import Card from './Card';
-import Container from './Container';
+import ButtonComponent from './Button';
+import CardComponent from './Card';
+import ContainerComponent from './Container';
 
 export {
-  Button,
-  Card,
-  Container,
+  ButtonComponent as ButtonAlt,
+  CardComponent as CardAlt,
+  ContainerComponent as ContainerAlt,
   // Container sub-components
-  Container as Section,
-  Container as Grid,
-  Container as Flex,
+  ContainerComponent as Section,
+  ContainerComponent as Grid,
+  ContainerComponent as Flex,
 };

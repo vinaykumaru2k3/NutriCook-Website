@@ -10,7 +10,7 @@ const products = [
   {
     id: 'biriyani-pot-12l',
     name: '12 Ltr Biriyani Pot',
-    image: '/images/products/biriyani-pot-12l.jpg',
+    image: '/images/products/Biryani pot 12 ltr.jpg',
     capacity: '12 Litres',
     dimensions: '32cm x 18cm',
     price: 21490,
@@ -28,7 +28,7 @@ const products = [
   {
     id: 'fish-pot-6l',
     name: '6 Ltr Fish Pot',
-    image: '/images/products/fish-pot-6l.jpg',
+    image: '/images/products/fish pot.jpg',
     capacity: '6 Litres',
     dimensions: '26cm x 14cm',
     price: 19490,
@@ -45,7 +45,7 @@ const products = [
   {
     id: 'casserole-3l',
     name: '3 Ltr Casserole',
-    image: '/images/products/casserole-3l.jpg',
+    image: '/images/products/casserole 3 ltr.jpg',
     capacity: '3 Litres',
     dimensions: '22cm x 12cm',
     price: 15490,
@@ -60,57 +60,56 @@ const products = [
     description: 'Versatile casserole perfect for curries, vegetables, and everyday cooking needs.'
   },
   {
-    id: 'casserole-5l',
-    name: '5 Ltr Casserole',
-    image: '/images/products/casserole-5l.jpg',
-    capacity: '5 Litres',
-    dimensions: '26cm x 14cm',
-    price: 17490,
-    originalPrice: 19990,
+    id: 'casserole-2l',
+    name: '2.2 Ltr Casserole',
+    image: '/images/products/casserole 2.2 ltr.jpg',
+    capacity: '2.2 Litres',
+    dimensions: '20cm x 10cm',
+    price: 13490,
+    originalPrice: 15490,
     features: [
       'Surgical Grade 316L Steel',
-      'Large Family Size',
-      'Energy Efficient',
+      'Compact Size',
+      'Perfect for Small Families',
       '30-Year Guarantee'
     ],
     category: 'casserole',
-    description: 'Ideal for medium to large families. Perfect for cooking rice, dal, and vegetables.'
+    description: 'Compact casserole ideal for small families and everyday cooking needs.'
   },
   {
-    id: 'frying-pan-24cm',
-    name: '24cm Frying Pan',
-    image: '/images/products/frying-pan-24cm.jpg',
-    capacity: '2.5 Litres',
-    dimensions: '24cm x 6cm',
-    price: 12490,
-    originalPrice: 14490,
+    id: 'sauce-pot',
+    name: 'Sauce Pot',
+    image: '/images/products/sauce pot.jpg',
+    capacity: '1.5 Litres',
+    dimensions: '18cm x 8cm',
+    price: 9490,
+    originalPrice: 11490,
     features: [
       'Surgical Grade 316L Steel',
-      'Non-Stick Surface',
-      'Oil-Free Cooking',
+      'Perfect for Sauces',
+      'Heat Distribution',
       '30-Year Guarantee'
     ],
-    category: 'pan',
+    category: 'pot',
     isNew: true,
-    description: 'Revolutionary frying pan that requires no oil. Perfect for healthy frying and sautéing.'
+    description: 'Specially designed for making sauces, gravies, and small quantity cooking.'
   },
   {
-    id: 'complete-set',
-    name: 'Complete Cookware Set',
-    image: '/images/products/complete-set.jpg',
-    capacity: 'Multiple Sizes',
-    dimensions: 'Various',
-    price: 89990,
-    originalPrice: 109990,
+    id: 'multipurpose-bowl',
+    name: 'Multipurpose Bowl',
+    image: '/images/products/multipurpose bowl.jpg',
+    capacity: '2 Litres',
+    dimensions: '22cm x 8cm',
+    price: 11490,
+    originalPrice: 13490,
     features: [
-      '8-Piece Complete Set',
-      'All Essential Cookware',
-      'Maximum Savings',
+      'Surgical Grade 316L Steel',
+      'Versatile Design',
+      'Multi-Use Functionality',
       '30-Year Guarantee'
     ],
-    category: 'set',
-    isBestseller: true,
-    description: 'Complete kitchen solution with all essential NutriCook cookware at maximum savings.'
+    category: 'bowl',
+    description: 'Versatile bowl perfect for mixing, serving, and light cooking tasks.'
   }
 ];
 
@@ -127,8 +126,7 @@ export default function Products() {
     { id: 'all', name: 'All Products' },
     { id: 'pot', name: 'Pots' },
     { id: 'casserole', name: 'Casseroles' },
-    { id: 'pan', name: 'Pans' },
-    { id: 'set', name: 'Sets' }
+    { id: 'bowl', name: 'Bowls' }
   ];
 
   const filteredProducts = selectedCategory === 'all' 

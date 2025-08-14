@@ -202,8 +202,8 @@ export class PerformanceMonitor {
     // Placeholder for analytics integration
     if (import.meta.env.PROD) {
       // Example: Google Analytics 4
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'web_vital', {
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'web_vital', {
           name,
           value: Math.round(value),
           rating,

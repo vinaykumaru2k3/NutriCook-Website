@@ -3,9 +3,9 @@
 // Initialize Google Analytics
 export const initAnalytics = () => {
   // Check if gtag is available
-  if (typeof gtag !== 'undefined') {
+  if (typeof window !== 'undefined' && window.gtag) {
     // Configure Google Analytics
-    gtag('config', 'G-XXXXXXXXXX', {
+    window.gtag('config', 'G-XXXXXXXXXX', {
       // Custom parameters
       custom_map: {
         dimension1: 'user_type',
@@ -23,8 +23,8 @@ export const initAnalytics = () => {
 
 // Track page view
 export const trackPageView = (pagePath, pageTitle) => {
-  if (typeof gtag !== 'undefined') {
-    gtag('config', 'G-XXXXXXXXXX', {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('config', 'G-XXXXXXXXXX', {
       page_path: pagePath,
       page_title: pageTitle
     });
@@ -33,8 +33,8 @@ export const trackPageView = (pagePath, pageTitle) => {
 
 // Track custom event
 export const trackEvent = (eventName, eventParams = {}) => {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', eventName, {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', eventName, {
       ...eventParams,
       // Add timestamp
       timestamp: new Date().toISOString()

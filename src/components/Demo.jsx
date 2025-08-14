@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
 import { smoothScrollTo } from '../utils/animations';
 import { trackButtonClick } from '../utils/analytics';
@@ -13,7 +13,7 @@ export default function Demo() {
   const contentRef = useAnimatedRef('fadeInRight', 400);
   const trustIndicatorsRef = useStaggerAnimation(3, 150);
   
-  // Demo images/videos - using placeholder content for now
+  // Demo images - showcasing demonstration process
   const demoMedia = [
     {
       type: 'image',
@@ -32,13 +32,6 @@ export default function Demo() {
       src: 'https://www.escoffier.edu/wp-content/uploads/2022/08/Chef-sauteing-vegetables-in-a-black-pan-with-a-wooden-spoon-1400.jpeg',
       alt: 'NutriCook presenter explaining cooking process',
       caption: 'Our experts guide you through the entire process'
-    },
-    {
-      type: 'placeholder-video',
-      src: '#',
-      poster: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&crop=center',
-      alt: 'Complete NutriCook home demonstration video',
-      caption: 'See the complete demonstration experience'
     }
   ];
 
@@ -76,44 +69,15 @@ export default function Demo() {
             <div className="relative">
               {/* Main Media Display */}
               <div className="relative aspect-video bg-gray-100 rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl">
-                {demoMedia[currentImageIndex].type === 'video' ? (
-                  <video
-                    controls
-                    poster={demoMedia[currentImageIndex].poster}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  >
-                    <source src={demoMedia[currentImageIndex].src} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                ) : demoMedia[currentImageIndex].type === 'placeholder-video' ? (
-                  <div className="relative w-full h-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center">
-                    <img
-                      src={demoMedia[currentImageIndex].poster}
-                      alt={demoMedia[currentImageIndex].alt}
-                      className="w-full h-full object-cover opacity-60"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      <div className="text-center text-white">
-                        <div className="bg-orange-500 text-white p-4 rounded-full shadow-lg mb-4 inline-block">
-                          <Play className="w-8 h-8 ml-1" fill="currentColor" />
-                        </div>
-                        <p className="text-lg font-semibold">Demo Video Coming Soon</p>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <img
-                    src={demoMedia[currentImageIndex].src}
-                    alt={demoMedia[currentImageIndex].alt}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zOTUgMjk1SDQwNVYzMDVIMzk1VjI5NVoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';
-                    }}
-                  />
-                )}
+                <img
+                  src={demoMedia[currentImageIndex].src}
+                  alt={demoMedia[currentImageIndex].alt}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zOTUgMjk1SDQwNVYzMDVIMzk1VjI5NVoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';
+                  }}
+                />
                 
                 {/* Navigation Arrows - Hidden on Mobile */}
                 <button
@@ -130,15 +94,6 @@ export default function Demo() {
                 >
                   <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
-
-                {/* Play Icon Overlay for Videos */}
-                {demoMedia[currentImageIndex].type === 'video' && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-orange-500 text-white p-4 rounded-full shadow-lg">
-                      <Play className="w-8 h-8 ml-1" fill="currentColor" />
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Media Caption */}

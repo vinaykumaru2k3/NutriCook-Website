@@ -18,9 +18,7 @@ export const scrollToSection = (sectionId, offset = 80) => {
 export const scrollToElement = (element, options = {}) => {
   const {
     offset = 80,
-    behavior = 'smooth',
-    block = 'start',
-    inline = 'nearest'
+    behavior = 'smooth'
   } = options;
 
   if (typeof element === 'string') {
@@ -136,7 +134,6 @@ export const getElementScrollProgress = (element) => {
   if (elementTop + elementHeight < 0) return 1;
   
   const visibleTop = Math.max(0, -elementTop);
-  const visibleHeight = Math.min(elementHeight, windowHeight - Math.max(0, elementTop));
   
   return visibleTop / elementHeight;
 };

@@ -246,7 +246,7 @@ export default function PrivacyPolicy() {
 
           {/* Sections */}
           <div className="space-y-8">
-            {sections.map((section, index) => (
+            {sections.map((section) => (
               <div key={section.id} className="bg-white rounded-2xl shadow-lg p-8">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600">

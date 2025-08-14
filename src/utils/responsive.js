@@ -177,25 +177,14 @@ export const getSafeAreaInsets = () => {
 };
 
 /**
- * Responsive breakpoint hooks for React components
+ * Responsive breakpoint utility for non-React components
  */
-export const useResponsive = () => {
-  const [breakpoint, setBreakpoint] = useState(getCurrentBreakpoint());
+export const createResponsiveListener = (callback) => {
+  const handleResize = debounce(() => {
+    callback(getCurrentBreakpoint());
+  }, 250);
   
-  useEffect(() => {
-    const handleResize = debounce(() => {
-      setBreakpoint(getCurrentBreakpoint());
-    }, 250);
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  window.addEventListener('resize', handleResize);
   
-  return {
-    breakpoint,
-    isMobile: breakpoint === 'mobile',
-    isTablet: breakpoint === 'tablet',
-    isDesktop: breakpoint === 'desktop',
-    isTouchDevice: isTouchDevice()
-  };
+  return () => window.removeEventListener('resize', handleResize);
 };

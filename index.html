@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Favicon and App Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
     
     <!-- Primary Meta Tags -->
@@ -32,8 +35,8 @@
     <meta property="twitter:image" content="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630&q=80" />
     
     <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#F97316" />
-    <meta name="msapplication-TileColor" content="#F97316" />
+    <meta name="theme-color" content="#10B981" />
+    <meta name="msapplication-TileColor" content="#10B981" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="NutriCook" />
@@ -44,6 +47,12 @@
     <!-- Preconnect to external domains for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80&fm=webp" />
+    <link rel="preload" as="image" href="/images/products/Biryani pot 12 ltr.jpg" />
+    <link rel="preload" as="image" href="/images/products/fish pot.jpg" />
     
     <!-- Structured Data for Rich Snippets -->
     <script type="application/ld+json">
@@ -68,6 +77,27 @@
     }
     </script>
     
+    <!-- Simple Image Visibility Fix -->
+    <script>
+      // Simple, non-blocking image fix
+      function fixImages() {
+        const images = document.querySelectorAll('img');
+        images.forEach(img => {
+          if (img.src) {
+            img.style.opacity = '1';
+            img.style.visibility = 'visible';
+          }
+        });
+      }
+      
+      // Run once on load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fixImages);
+      } else {
+        fixImages();
+      }
+    </script>
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>

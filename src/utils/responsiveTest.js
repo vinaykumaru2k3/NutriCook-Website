@@ -55,7 +55,6 @@ export const testTextReadability = () => {
   textElements.forEach((element, index) => {
     const styles = window.getComputedStyle(element);
     const fontSize = parseFloat(styles.fontSize);
-    const lineHeight = parseFloat(styles.lineHeight) || fontSize * 1.2;
     
     // Check minimum font size (16px on mobile to prevent zoom)
     const minFontSize = window.innerWidth <= 768 ? 16 : 14;
@@ -96,8 +95,6 @@ export const testResponsiveImages = () => {
                               img.classList.contains('w-full') ||
                               img.style.maxWidth === '100%';
     
-    const hasSrcSet = img.hasAttribute('srcset');
-    const hasSizes = img.hasAttribute('sizes');
     const hasAlt = img.hasAttribute('alt') && img.alt.trim() !== '';
     
     if (!hasResponsiveClass) {
@@ -135,8 +132,6 @@ export const testBreakpoints = () => {
     desktop: { width: 1024, issues: [] }
   };
 
-  const originalWidth = window.innerWidth;
-  
   // Test each breakpoint
   Object.keys(results).forEach(breakpoint => {
     const width = results[breakpoint].width;

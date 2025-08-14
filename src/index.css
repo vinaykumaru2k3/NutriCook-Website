@@ -256,16 +256,83 @@ html {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-/* Modern Animation Utilities */
+/* Modern Animation Utilities - More reliable and subtle */
 .animate-on-scroll {
-  opacity: 0;
-  transform: translateY(2rem);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1; /* Always visible - no more invisible content! */
+  transform: translateY(0.5rem); /* Much more subtle initial offset */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Faster, smoother */
 }
 
 .animate-on-scroll.in-view {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Fallback for elements that should always be visible */
+.animate-on-scroll-safe {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: all 0.3s ease;
+}
+
+/* Ensure all content is visible by default */
+.animate-in {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Subtle animation classes */
+.animate-subtle-fade {
+  opacity: 1;
+  transform: translateY(0.25rem);
+  transition: all 0.3s ease;
+}
+
+.animate-subtle-fade.visible {
+  transform: translateY(0);
+}
+
+/* CSS-only animation fallbacks (no JavaScript required) */
+.animate-css-fade-in {
+  animation: cssSimpleFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes cssSimpleFadeIn {
+  from {
+    opacity: 0.8;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-css-stagger-1 { animation-delay: 0ms; }
+.animate-css-stagger-2 { animation-delay: 100ms; }
+.animate-css-stagger-3 { animation-delay: 200ms; }
+.animate-css-stagger-4 { animation-delay: 300ms; }
+
+/* Ensure content is always visible - critical fix */
+[data-animation],
+.animate-on-scroll,
+.hero-content,
+.section-content {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll,
+  .animate-subtle-fade,
+  .animate-css-fade-in,
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
 }
 
 /* Floating Animation */
@@ -2637,4 +2704,76 @@ html {
     transition: none !important;
     transform: none !important;
   }
+}
+/* Image 
+Loading Optimization - Critical Fix */
+img,
+picture,
+[data-src] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Image loading optimization */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent layout shift during image loading */
+img[width][height] {
+  height: auto;
+}
+
+/* Smooth image loading transition */
+img:not(.loaded) {
+  background-color: #f3f4f6;
+  background-image: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+/* Ensure LazyImage components are always visible */
+.lazy-image-container,
+.lazy-image-container img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for images that might be hidden by animations */
+.hero-section img,
+.products-section img,
+.testimonials-section img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Simple image visibility fix */
+img[src] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ensure loaded images stay visible */
+img.loaded,
+img[data-loaded="true"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Basic image optimization */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

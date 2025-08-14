@@ -110,7 +110,9 @@ const CardImage = ({ src, alt, className = '', aspectRatio = 'video', ...props }
   );
 };
 
-const CardTitle = ({ children, className = '', as: Component = 'h3', ...props }) => {
+const CardTitle = ({ children, className = '', 
+  // eslint-disable-next-line no-unused-vars
+  as: Component = 'h3', ...props }) => {
   return (
     <Component className={cn('heading-3 mb-2', className)} {...props}>
       {children}

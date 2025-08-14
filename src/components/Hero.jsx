@@ -1,28 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Play, ArrowRight, Shield, Leaf, Heart, Zap } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { smoothScrollTo } from '../utils/animations';
 import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
 import { trackButtonClick } from '../utils/analytics';
-import Button from './ui/Button';
 import Container from './ui/Container';
 import LazyImage from './ui/LazyImage';
+import ReliableImage from './ui/ReliableImage';
 
 const Hero = () => {
   const [showVideo, setShowVideo] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Animation refs
+  // Animation refs - More subtle and reliable
   const heroContentRef = useAnimatedRef('fadeInUp', 0);
-  const headlineRef = useAnimatedRef('fadeInUp', 200);
-  const subtitleRef = useAnimatedRef('fadeInUp', 400);
-  const buttonsRef = useAnimatedRef('fadeInUp', 600);
-  const trustIndicatorsRef = useStaggerAnimation(4, 150);
-
-  const handleDemoClick = () => {
-    smoothScrollTo('contact', { offset: 80, duration: 800 });
-    trackButtonClick('request_free_demo', 'hero_section');
-  };
+  const headlineRef = useAnimatedRef('fadeInUp', 50);  // Reduced delay
+  const subtitleRef = useAnimatedRef('fadeInUp', 100); // Reduced delay
+  const buttonsRef = useAnimatedRef('fadeInUp', 150);  // Reduced delay
+  const trustIndicatorsRef = useStaggerAnimation(4, 50); // Reduced stagger delay
 
   const handlePlayVideo = () => {
     setShowVideo(true);
@@ -35,14 +28,14 @@ const Hero = () => {
       <div className="absolute inset-0 z-0">
         {/* Background Image - Mobile Optimized */}
         <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-teal-50">
-          <LazyImage
+          <ReliableImage
             src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
             alt="Happy family cooking together with premium cookware"
             className="w-full h-full object-cover opacity-15 sm:opacity-20 md:opacity-25 lg:opacity-30"
             placeholder={
               <div className="w-full h-full bg-gradient-to-br from-green-100 via-white to-teal-100 animate-pulse" />
             }
-            onLoad={() => setImageLoaded(true)}
+
           />
         </div>
         
@@ -72,7 +65,7 @@ const Hero = () => {
             </button>
             <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl">
               <video className="w-full h-full object-cover" controls autoPlay>
-                <source src="/api/placeholder/video/nutricook-demo.mp4" type="video/mp4" />
+                <source src="/videos/demo video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>

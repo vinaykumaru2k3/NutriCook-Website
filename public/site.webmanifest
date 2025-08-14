@@ -1,0 +1,25 @@
+{
+  "name": "NutriCook - Healthy Cooking Solutions",
+  "short_name": "NutriCook",
+  "description": "Premium surgical steel cookware for oilless and waterless cooking",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
+    }
+  ],
+  "theme_color": "#10B981",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "start_url": "/",
+  "scope": "/",
+  "categories": ["lifestyle", "health", "shopping"]
+}

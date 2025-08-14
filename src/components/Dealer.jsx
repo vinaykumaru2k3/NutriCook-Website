@@ -6,7 +6,7 @@ export default function Dealer() {
   // Animation refs
   const headerRef = useAnimatedRef('fadeInUp', 0);
   const contentRef = useAnimatedRef('fadeInLeft', 200);
-  const imageRef = useAnimatedRef('fadeInRight', 400);
+
   const trustIndicatorsRef = useAnimatedRef('fadeInUp', 600);
 
   const benefits = [

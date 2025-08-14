@@ -5,6 +5,7 @@ const Container = ({
   className = '', 
   size = 'default',
   padding = 'default',
+  // eslint-disable-next-line no-unused-vars
   as: Component = 'div',
   ...props 
 }) => {
@@ -48,6 +49,7 @@ const Section = ({
   size = 'default',
   padding = 'default',
   background = 'transparent',
+  // eslint-disable-next-line no-unused-vars
   as: Component = 'section',
   ...props 
 }) => {

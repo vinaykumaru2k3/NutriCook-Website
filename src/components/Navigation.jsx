@@ -81,40 +81,6 @@ const Navigation = ({ activeSection = "home" }) => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, [isMenuOpen]);
 
-  // Force navigation to stay visible - override any external animations
-  useEffect(() => {
-    const nav = document.querySelector('nav[role="navigation"]');
-    if (nav) {
-      // Force styles to ensure navigation stays visible
-      nav.style.position = 'fixed';
-      nav.style.top = '0';
-      nav.style.left = '0';
-      nav.style.right = '0';
-      nav.style.zIndex = '50';
-      nav.style.transform = 'translateY(0px)';
-      nav.style.visibility = 'visible';
-      nav.style.opacity = '1';
-      
-      // Override any potential scroll listeners
-      const handleScroll = () => {
-        if (nav.style.transform !== 'translateY(0px)') {
-          nav.style.transform = 'translateY(0px)';
-        }
-        if (nav.style.visibility !== 'visible') {
-          nav.style.visibility = 'visible';
-        }
-        if (nav.style.opacity !== '1') {
-          nav.style.opacity = '1';
-        }
-      };
-      
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, []);
 
   // Handle menu toggle with improved functionality
   const toggleMenu = (e) => {
@@ -178,16 +144,8 @@ const Navigation = ({ activeSection = "home" }) => {
   return (
     <nav
       className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100/50 shadow-sm"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 50,
-        transform: 'translateY(0px)',
-        visibility: 'visible',
-        opacity: 1
-      }}
+      data-no-animation
+      data-no-hide
       role="navigation"
       aria-label="Main navigation"
     >
@@ -222,8 +180,8 @@ const Navigation = ({ activeSection = "home" }) => {
                 className={cn(
                   "text-sm font-medium transition-all duration-300 focus:outline-none relative group px-3 py-2 rounded-lg",
                   activeSection === link.id
-                    ? "text-green-600"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-green-700 bg-green-100/60 font-semibold"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-green-50/80"
                 )}
                 aria-current={activeSection === link.id ? "page" : undefined}
               >
@@ -234,11 +192,6 @@ const Navigation = ({ activeSection = "home" }) => {
                 <span className="relative z-10 group-hover:transform group-hover:-translate-y-0.5 transition-transform duration-300">
                   {link.label}
                 </span>
-                
-                {/* Active indicator - larger underline */}
-                {activeSection === link.id && (
-                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-full"></div>
-                )}
                 
                 {/* Subtle glow effect on hover */}
                 <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-gradient-to-r from-green-200 to-emerald-200 blur-sm scale-110"></div>
@@ -331,12 +284,12 @@ const Navigation = ({ activeSection = "home" }) => {
                   className={cn(
                     "w-full text-left px-3 py-2 text-sm font-medium transition-all duration-300 focus:outline-none rounded group relative overflow-hidden",
                     activeSection === link.id
-                      ? "text-green-600 bg-green-50"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                      ? "text-green-700 bg-green-100/60 font-semibold"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-green-50/80"
                   )}
                   type="button"
                   aria-current={activeSection === link.id ? "page" : undefined}
-                  style={{ 
+                  style={{
                     animationDelay: `${index * 50}ms`,
                     animation: isMenuOpen ? 'slideInFromRight 0.3s ease-out forwards' : 'none'
                   }}
@@ -349,10 +302,6 @@ const Navigation = ({ activeSection = "home" }) => {
                     {link.label}
                   </span>
                   
-                  {/* Active indicator */}
-                  {activeSection === link.id && (
-                    <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-4 bg-green-500 rounded-r"></div>
-                  )}
                 </button>
               ))}
             </nav>

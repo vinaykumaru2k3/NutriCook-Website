@@ -408,7 +408,7 @@ export const initializeAnimations = () => {
   
   // Add navigation animation (non-critical)
   try {
-    const navigation = document.querySelector('nav, [data-navigation]');
+    const navigation = document.querySelector('nav:not([data-no-hide]), [data-navigation]');
     if (navigation) {
       addNavigationAnimation(navigation);
     }

@@ -77,7 +77,7 @@ const Benefits = () => {
   ];
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-gray-50 to-green-50/30">
+    <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       <Container>
         {/* Section Header */}
         <div ref={headerRef} className="text-center mb-8 sm:mb-12 md:mb-16 px-4 md:px-0">

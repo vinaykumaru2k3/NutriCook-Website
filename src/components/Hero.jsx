@@ -4,8 +4,7 @@ import { cn } from '../utils/cn';
 import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
 import { trackButtonClick } from '../utils/analytics';
 import Container from './ui/Container';
-import LazyImage from './ui/LazyImage';
-import ReliableImage from './ui/ReliableImage';
+
 
 const Hero = () => {
   const [showVideo, setShowVideo] = useState(false);
@@ -24,24 +23,13 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen mobile-viewport-fix flex items-start justify-center overflow-hidden hero-section pt-16 sm:pt-20 md:items-center md:pt-0">
-      {/* Mobile-Optimized Background */}
+      {/* Refined Gradient Background */}
       <div className="absolute inset-0 z-0">
-        {/* Background Image - Mobile Optimized */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-teal-50">
-          <ReliableImage
-            src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-            alt="Happy family cooking together with premium cookware"
-            className="w-full h-full object-cover opacity-15 sm:opacity-20 md:opacity-25 lg:opacity-30"
-            placeholder={
-              <div className="w-full h-full bg-gradient-to-br from-green-100 via-white to-teal-100 animate-pulse" />
-            }
-
-          />
-        </div>
+        {/* Subtle gradient background using brand-consistent colors */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-green-50/80 to-green-100/60"></div>
         
-        {/* Mobile-Optimized Overlay for Better Text Readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/98 via-white/92 to-green-50/95 sm:from-white/96 sm:via-white/88 sm:to-green-50/92 md:from-white/90 md:via-white/75 md:to-green-50/85 lg:from-white/85 lg:via-white/70 lg:to-green-50/80"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-white/60 sm:from-white/75 sm:to-white/55 md:from-white/65 md:to-white/45 lg:from-white/50 lg:to-white/30"></div>
+        {/* Additional subtle overlay for enhanced text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-white/10"></div>
       </div>
       
       {/* Decorative Elements - Mobile Responsive */}
@@ -163,14 +151,7 @@ const Hero = () => {
         </div>
       </Container>
 
-      {/* Scroll Indicator - Hidden on Mobile */}
-      <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 z-20 hidden md:block">
-        <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-green-500/50 rounded-full flex justify-center bg-white/60 backdrop-blur-sm shadow-sm">
-            <div className="w-1 h-3 bg-green-500 rounded-full mt-2 animate-pulse"></div>
-          </div>
-        </div>
-      </div>
+
     </section>
   );
 };

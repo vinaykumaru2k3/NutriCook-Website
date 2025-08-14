@@ -55,7 +55,7 @@ export const HeroSkeleton = () => (
 );
 
 export const BenefitsSkeleton = () => (
-  <div className="py-16">
+  <div className="py-8 sm:py-12 md:py-16">
     <div className="max-w-7xl mx-auto px-4">
       <div className="text-center mb-12">
         <SkeletonLoader variant="title" className="w-1/2 mx-auto h-8 mb-4" />

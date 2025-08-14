@@ -122,7 +122,7 @@ function App() {
       <Navigation activeSection={activeSection} />
 
       <main id="main-content" className="safe-area-inset">
-        <section id="home" className="pt-18 lg:pt-22">
+        <section id="home" className="pt-12 lg:pt-16">
           <Hero />
         </section>
 

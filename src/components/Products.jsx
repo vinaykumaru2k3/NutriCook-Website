@@ -3,7 +3,7 @@ import { ArrowRight, Star, Shield, Zap } from 'lucide-react';
 import { useAnimatedRef, useStaggerAnimation } from '../hooks/useAnimations';
 import { smoothScrollTo } from '../utils/animations';
 import { trackButtonClick } from '../utils/analytics';
-import LazyImage from './ui/LazyImage';
+
 
 // Product data structure with specifications, pricing, and features
 const products = [
@@ -151,7 +151,7 @@ export default function Products() {
   };
 
   return (
-    <div className="py-12 sm:py-16 bg-gray-50">
+    <div className="py-12 sm:py-16 bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div ref={headerRef} className="text-center mb-8 sm:mb-12">
@@ -190,24 +190,40 @@ export default function Products() {
             >
               {/* Product Image */}
               <div className="relative overflow-hidden">
-                <LazyImage
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-32 sm:h-40 md:h-48 lg:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                  placeholder={
-                    <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gray-200 animate-pulse flex items-center justify-center">
-                      <div className="text-gray-400 text-xs">Loading...</div>
+                <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 absolute inset-0"
+                    loading="eager"
+                    decoding="async"
+                    onLoad={(e) => {
+                      console.log('Image loaded successfully:', product.image);
+                      e.target.style.opacity = '1';
+                    }}
+                    onError={(e) => {
+                      console.error('Image failed to load:', product.image);
+                      // Try loading without cache buster
+                      if (e.target.src.includes('?v=')) {
+                        e.target.src = product.image;
+                        return;
+                      }
+                      e.target.style.display = 'none';
+                      e.target.parentElement.querySelector('.fallback-content').style.display = 'flex';
+                    }}
+                    style={{
+                      opacity: 1,
+                      visibility: 'visible',
+                      display: 'block'
+                    }}
+                  />
+                  <div className="fallback-content absolute inset-0 bg-gray-100 flex items-center justify-center" style={{ display: 'none' }}>
+                    <div className="text-center text-gray-500 p-2">
+                      <div className="text-xs sm:text-sm font-medium">{product.name}</div>
+                      <div className="text-xs">Image unavailable</div>
                     </div>
-                  }
-                  fallback={
-                    <div className="w-full h-32 sm:h-40 md:h-48 lg:h-56 bg-gray-100 flex items-center justify-center">
-                      <div className="text-center text-gray-500 p-2">
-                        <div className="text-xs sm:text-sm font-medium">{product.name}</div>
-                        <div className="text-xs">Image unavailable</div>
-                      </div>
-                    </div>
-                  }
-                />
+                  </div>
+                </div>
                 
                 {/* Badges - Mobile Optimized */}
                 <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1 sm:gap-2">

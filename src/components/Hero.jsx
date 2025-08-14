@@ -46,7 +46,7 @@ const Hero = () => {
           <div className="relative w-full max-w-4xl aspect-video">
             <button
               onClick={() => setShowVideo(false)}
-              className="absolute -top-12 right-0 text-white hover:text-gray-300 text-xl font-bold z-10 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white"
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 text-xl font-bold z-10 w-12 h-12 rounded-full bg-gray-800/50 backdrop-blur-sm flex items-center justify-center hover:bg-gray-700/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white shadow-lg md:w-10 md:h-10"
               aria-label="Close video"
             >
               ✕

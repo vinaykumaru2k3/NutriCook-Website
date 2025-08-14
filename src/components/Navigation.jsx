@@ -24,36 +24,43 @@ const Navigation = ({ activeSection = "home" }) => {
     // Close menu first for better UX
     setIsMenuOpen(false);
     
-    // Scroll to section with proper offset for fixed navigation
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const navHeight = 64; // h-16 = 64px
-      const offsetTop = element.offsetTop - navHeight;
-      window.scrollTo({
-        top: Math.max(0, offsetTop),
-        behavior: 'smooth'
-      });
-    }
-    
-    trackButtonClick(`nav_${sectionId}`, 'navigation');
+    // Scroll to section with proper offset for fixed navigation after a short delay
+    // to ensure menu closing animation completes and body scroll is unlocked
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const navHeight = 64; // h-16 = 64px
+        const offsetTop = element.offsetTop - navHeight;
+        window.scrollTo({
+          top: Math.max(0, offsetTop),
+          behavior: 'smooth'
+        });
+      }
+      
+      trackButtonClick(`nav_${sectionId}`, 'navigation');
+    }, 100); // Small delay to ensure menu closing completes
   };
 
   // Handle demo button click
   const handleDemoClick = () => {
     setIsMenuOpen(false);
     
-    // Scroll to contact section
-    const element = document.getElementById("contact");
-    if (element) {
-      const navHeight = 64; // h-16 = 64px
-      const offsetTop = element.offsetTop - navHeight;
-      window.scrollTo({
-        top: Math.max(0, offsetTop),
-        behavior: 'smooth'
-      });
-    }
-    
-    trackButtonClick('nav_request_free_demo', 'navigation');
+    // Scroll to contact section after a short delay
+    // to ensure menu closing animation completes and body scroll is unlocked
+    setTimeout(() => {
+      // Scroll to contact section
+      const element = document.getElementById("contact");
+      if (element) {
+        const navHeight = 64; // h-16 = 64px
+        const offsetTop = element.offsetTop - navHeight;
+        window.scrollTo({
+          top: Math.max(0, offsetTop),
+          behavior: 'smooth'
+        });
+      }
+      
+      trackButtonClick('nav_request_free_demo', 'navigation');
+    }, 100); // Small delay to ensure menu closing completes
   };
 
   // Close mobile menu when clicking outside (improved)
@@ -274,13 +281,14 @@ const Navigation = ({ activeSection = "home" }) => {
           {/* Navigation Links */}
           <div className="flex-1 py-4">
             <nav className="space-y-1 px-4" role="navigation">
-              {navigationLinks.map((link, index) => (
+              {navigationLinks.slice(0, 4).map((link, index) => (
                 <button
                   key={link.id}
                   onClick={() => {
                     handleNavClick(link.id);
                     trackButtonClick(`mobile_nav_${link.id}`, 'mobile_navigation');
                   }}
+                  onKeyDown={(e) => handleKeyDown(e, link.id)}
                   className={cn(
                     "w-full text-left px-3 py-2 text-sm font-medium transition-all duration-300 focus:outline-none rounded group relative overflow-hidden",
                     activeSection === link.id
@@ -304,21 +312,48 @@ const Navigation = ({ activeSection = "home" }) => {
                   
                 </button>
               ))}
+              
+              {/* Contact tab */}
+              {(() => {
+                const contactLink = navigationLinks[4]; // The contact link
+                const index = 4;
+                return (
+                  <button
+                    key={contactLink.id}
+                    onClick={() => {
+                      handleNavClick(contactLink.id);
+                      trackButtonClick(`mobile_nav_${contactLink.id}`, 'mobile_navigation');
+                    }}
+                    onKeyDown={(e) => handleKeyDown(e, contactLink.id)}
+                    className={cn(
+                      "w-full text-left px-3 py-2 text-sm font-medium transition-all duration-300 focus:outline-none rounded group relative overflow-hidden",
+                      activeSection === contactLink.id
+                        ? "text-green-700 bg-green-100/60 font-semibold"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-green-50/80"
+                    )}
+                    type="button"
+                    aria-current={activeSection === contactLink.id ? "page" : undefined}
+                    style={{
+                      animationDelay: `${index * 50}ms`,
+                      animation: isMenuOpen ? 'slideInFromRight 0.3s ease-out forwards' : 'none'
+                    }}
+                  >
+                    {/* Hover slide effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-green-50 to-emerald-50 transform translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                    
+                    {/* Text content */}
+                    <span className="relative z-10 group-hover:transform group-hover:translate-x-1 transition-transform duration-300">
+                      {contactLink.label}
+                    </span>
+                    
+                  </button>
+                );
+              })()}
+              
+              
+              {/* Remaining navigation links (if any) */}
+              {/* In this case, there are no remaining links after Contact */}
             </nav>
-            
-            {/* CTA Button */}
-            <div className="px-4 mt-6">
-              <button
-                onClick={() => {
-                  handleDemoClick();
-                  trackButtonClick('mobile_nav_request_free_demo', 'mobile_navigation');
-                }}
-                className="w-full px-4 py-2 bg-green-500 text-white text-sm font-medium rounded-lg hover:bg-green-600 transition-colors duration-200 focus:outline-none"
-                type="button"
-              >
-                Get Demo
-              </button>
-            </div>
           </div>
         </div>
       </div>

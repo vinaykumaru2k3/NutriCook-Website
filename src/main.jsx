@@ -4,10 +4,11 @@ import './index.css'
 import App from './App.jsx'
 import { registerSW } from './utils/serviceWorker'
 
-// Register service worker for caching and offline support
-if (import.meta.env.PROD) {
-  registerSW();
-}
+// Service worker temporarily disabled to fix 206 partial response caching issues
+// Will be re-enabled after fixing caching strategy
+// if (import.meta.env.PROD) {
+//   registerSW();
+// }
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

@@ -17,7 +17,7 @@ const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      videoSrc: '/videos/testimonial_NC/WhatsApp Video 2025-08-12 at 19.49.23_5d3ba4d6.mp4',
+      videoSrc: '/videos/testimonial_NC/testimonial-1.mp4',
       poster: '/images/testimonials/customer1.jpg',
       quote: "This cookware has completely transformed how I cook. My family loves the healthy meals I can now prepare.",
       name: "Manjunatha Baraki",
@@ -25,7 +25,7 @@ const Testimonials = () => {
     },
     {
       id: 2,
-      videoSrc: '/videos/testimonial_NC/WhatsApp Video 2025-08-12 at 19.49.24_479c1fd3.mp4',
+      videoSrc: '/videos/testimonial_NC/testimonial-2.mp4',
       poster: '/images/testimonials/customer2.jpg',
       quote: "I've saved so much money on gas and oil. The quality is exceptional and it's been 5 years and still looks new.",
       name: "Vinay",

@@ -10,7 +10,7 @@ const products = [
   {
     id: 'biriyani-pot-12l',
     name: '12 Ltr Biriyani Pot',
-    image: '/images/products/Biryani pot 12 ltr.jpg',
+    image: '/images/products/biryani-pot-12-ltr.jpg',
     capacity: '12 Litres',
     dimensions: '32cm x 18cm',
     price: 21490,
@@ -28,7 +28,7 @@ const products = [
   {
     id: 'fish-pot-6l',
     name: '6 Ltr Fish Pot',
-    image: '/images/products/fish pot.jpg',
+    image: '/images/products/fish-pot.jpg',
     capacity: '6 Litres',
     dimensions: '26cm x 14cm',
     price: 19490,
@@ -45,7 +45,7 @@ const products = [
   {
     id: 'casserole-3l',
     name: '3 Ltr Casserole',
-    image: '/images/products/casserole 3 ltr.jpg',
+    image: '/images/products/casserole-3-ltr.jpg',
     capacity: '3 Litres',
     dimensions: '22cm x 12cm',
     price: 15490,
@@ -62,7 +62,7 @@ const products = [
   {
     id: 'casserole-2l',
     name: '2.2 Ltr Casserole',
-    image: '/images/products/casserole 2.2 ltr.jpg',
+    image: '/images/products/casserole-2-2-ltr.jpg',
     capacity: '2.2 Litres',
     dimensions: '20cm x 10cm',
     price: 13490,
@@ -79,7 +79,7 @@ const products = [
   {
     id: 'sauce-pot',
     name: 'Sauce Pot',
-    image: '/images/products/sauce pot.jpg',
+    image: '/images/products/sauce-pot.jpg',
     capacity: '1.5 Litres',
     dimensions: '18cm x 8cm',
     price: 9490,
@@ -97,7 +97,7 @@ const products = [
   {
     id: 'multipurpose-bowl',
     name: 'Multipurpose Bowl',
-    image: '/images/products/multipurpose bowl.jpg',
+    image: '/images/products/multipurpose-bowl.jpg',
     capacity: '2 Litres',
     dimensions: '22cm x 8cm',
     price: 11490,

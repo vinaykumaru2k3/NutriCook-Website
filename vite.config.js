@@ -4,7 +4,10 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  publicDir: 'public', // Explicitly set public directory
   build: {
+    // Force copying of public directory
+    copyPublicDir: true,
     // Enable minification with terser for better compression
     minify: 'terser',
     terserOptions: {

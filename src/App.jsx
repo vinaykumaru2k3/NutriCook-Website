@@ -18,6 +18,7 @@ import { initializeAnimations, initSimpleAnimations } from "./utils/animations";
 import { initializeAnalytics } from "./utils/analytics";
 import { initImagePreloading } from "./utils/imagePreloader";
 import { initImageMonitoring } from "./utils/imageUtils";
+import { initAssetDebugging } from "./utils/assetDebugger";
 // Removed aggressive image fix that was causing infinite loading
 
 // Lazy load components that are below the fold
@@ -62,6 +63,9 @@ function App() {
     
     // Initialize comprehensive image monitoring
     initImageMonitoring();
+    
+    // Initialize asset debugging for production issues
+    initAssetDebugging();
 
     // Initialize animations with fallbacks
     const animationCleanup = initializeAnimations();

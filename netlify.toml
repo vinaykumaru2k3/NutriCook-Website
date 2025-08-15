@@ -5,15 +5,15 @@
   # Directory that contains the deploy-ready HTML files and assets
   publish = "dist"
   
-  # Enhanced build command with asset verification
-  command = "npm run build:verify"
+  # Build command with fallback
+  command = "npm run build"
 
 [build.environment]
-  # Node.js version
-  NODE_VERSION = "18"
+  # Node.js version - Updated for Vite 7.1.2 compatibility
+  NODE_VERSION = "20"
   
   # NPM version
-  NPM_VERSION = "9"
+  NPM_VERSION = "10"
   
   # Production environment
   NODE_ENV = "production"

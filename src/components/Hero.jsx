@@ -52,7 +52,15 @@ const Hero = () => {
               ✕
             </button>
             <div className="w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-              <video className="w-full h-full object-cover" controls autoPlay>
+              <video 
+                className="w-full h-full object-cover" 
+                controls 
+                autoPlay 
+                muted
+                playsInline
+                preload="metadata"
+                crossOrigin="anonymous"
+              >
                 <source src="/videos/demo-video.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>

@@ -294,6 +294,50 @@ export const fixBrokenAssets = (brokenAssets) => {
 };
 
 /**
+ * Chrome-specific debugging for media issues
+ */
+export const debugChromeMediaIssues = () => {
+  const issues = [];
+  
+  // Check if we're in Chrome
+  const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+  
+  if (isChrome) {
+    console.log('🔍 Chrome detected - running Chrome-specific media diagnostics...');
+    
+    // Check videos
+    const videos = document.querySelectorAll('video');
+    videos.forEach((video, index) => {
+      if (!video.hasAttribute('crossorigin')) {
+        issues.push(`Video ${index + 1}: Missing crossorigin attribute`);
+      }
+      if (!video.hasAttribute('muted') && video.hasAttribute('autoplay')) {
+        issues.push(`Video ${index + 1}: Chrome requires muted attribute for autoplay`);
+      }
+      if (!video.hasAttribute('playsinline')) {
+        issues.push(`Video ${index + 1}: Missing playsInline for mobile Chrome`);
+      }
+    });
+    
+    // Check images
+    const images = document.querySelectorAll('img');
+    images.forEach((img, index) => {
+      if (img.src.startsWith('http') && !img.hasAttribute('crossorigin')) {
+        issues.push(`Image ${index + 1}: External image without crossorigin`);
+      }
+    });
+    
+    if (issues.length > 0) {
+      console.warn('🚨 Chrome media issues found:', issues);
+    } else {
+      console.log('✅ No Chrome-specific media issues detected');
+    }
+  }
+  
+  return issues;
+};
+
+/**
  * Initialize asset debugging (for development and production)
  */
 export const initAssetDebugging = () => {
@@ -304,12 +348,17 @@ export const initAssetDebugging = () => {
     generateReport: generateAssetReport,
     findBroken: findBrokenAssetsOnPage,
     fixBroken: fixBrokenAssets,
+    debugChrome: debugChromeMediaIssues,
     
     // Quick test function
     quickTest: async () => {
       const results = await testAllAssets();
       const report = generateAssetReport(results);
       console.log(report);
+      
+      // Also run Chrome diagnostics
+      debugChromeMediaIssues();
+      
       return results;
     },
     
@@ -322,6 +371,10 @@ export const initAssetDebugging = () => {
       } else {
         console.log('No broken assets found on current page');
       }
+      
+      // Run Chrome diagnostics
+      debugChromeMediaIssues();
+      
       return broken;
     }
   };

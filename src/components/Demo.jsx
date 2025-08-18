@@ -73,7 +73,7 @@ export default function Demo() {
                   src={demoMedia[currentImageIndex].src}
                   alt={demoMedia[currentImageIndex].alt}
                   className="w-full h-full object-cover"
-                  loading="lazy"
+                  loading="eager"
                   onError={(e) => {
                     e.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDgwMCA2MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI4MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0zOTUgMjk1SDQwNVYzMDVIMzk1VjI5NVoiIGZpbGw9IiM5Q0EzQUYiLz4KPC9zdmc+';
                   }}

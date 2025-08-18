@@ -37,6 +37,7 @@
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#10B981" />
     <meta name="msapplication-TileColor" content="#10B981" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="NutriCook" />
@@ -49,10 +50,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" />
     
-    <!-- Preload critical images -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80&fm=webp" />
-    <link rel="preload" as="image" href="/images/products/biryani-pot-12-ltr.jpg" />
-    <link rel="preload" as="image" href="/images/products/fish-pot.jpg" />
+    <!-- Preload only critical above-the-fold images -->
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80&fm=webp" fetchpriority="high" />
     
     <!-- Structured Data for Rich Snippets -->
     <script type="application/ld+json">
@@ -98,14 +97,7 @@
       }
     </script>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
+
   </head>
   <body>
     <div id="root"></div>

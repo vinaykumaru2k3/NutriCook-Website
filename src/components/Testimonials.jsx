@@ -18,7 +18,6 @@ const Testimonials = () => {
     {
       id: 1,
       videoSrc: '/videos/testimonial_NC/testimonial-1.mp4',
-      poster: '/images/testimonials/customer1.jpg',
       quote: "This cookware has completely transformed how I cook. My family loves the healthy meals I can now prepare.",
       name: "Manjunatha Baraki",
       location: "Bangalore"
@@ -26,7 +25,6 @@ const Testimonials = () => {
     {
       id: 2,
       videoSrc: '/videos/testimonial_NC/testimonial-2.mp4',
-      poster: '/images/testimonials/customer2.jpg',
       quote: "I've saved so much money on gas and oil. The quality is exceptional and it's been 5 years and still looks new.",
       name: "Vinay",
       location: "Mysuru"
@@ -101,11 +99,12 @@ const Testimonials = () => {
                     <div className="aspect-video bg-gray-100 rounded-lg sm:rounded-xl mb-4 sm:mb-6 overflow-hidden relative">
                       <video 
                         className="w-full h-full object-contain bg-black"
-                        poster={testimonial.poster}
                         preload="metadata"
                         playsInline
                         controls
                         controlsList="nodownload"
+                        crossOrigin="anonymous"
+                        muted
                       >
                         <source src={testimonial.videoSrc} type="video/mp4" />
                         Your browser does not support the video tag.

@@ -1,223 +1,114 @@
 // Analytics utilities for NutriCook website
+// Note: Google Analytics removed - will be implemented in the future
 
-// Initialize Google Analytics
+// Initialize Analytics (placeholder for future implementation)
 export const initAnalytics = () => {
-  // Check if gtag is available
-  if (typeof window !== 'undefined' && window.gtag) {
-    // Configure Google Analytics
-    window.gtag('config', 'G-XXXXXXXXXX', {
-      // Custom parameters
-      custom_map: {
-        dimension1: 'user_type',
-        dimension2: 'page_type',
-        metric1: 'form_submissions',
-        metric2: 'demo_requests'
-      }
-    });
-    
-    console.log('Google Analytics initialized');
-  } else {
-    console.warn('Google Analytics not found');
+  if (import.meta.env.DEV) {
+    console.log('Analytics initialization placeholder - will be implemented in the future');
   }
 };
 
-// Track page view
+// Track page view (placeholder for future implementation)
 export const trackPageView = (pagePath, pageTitle) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-XXXXXXXXXX', {
-      page_path: pagePath,
-      page_title: pageTitle
-    });
+  if (import.meta.env.DEV) {
+    console.log('Page view tracked:', { pagePath, pageTitle });
   }
 };
 
-// Track custom event
+// Track custom event (placeholder for future implementation)
 export const trackEvent = (eventName, eventParams = {}) => {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', eventName, {
-      ...eventParams,
-      // Add timestamp
-      timestamp: new Date().toISOString()
-    });
+  if (import.meta.env.DEV) {
+    console.log('Event tracked:', eventName, eventParams);
   }
 };
 
-// Track form submission
+// Track form submission (placeholder for future implementation)
 export const trackFormSubmission = (formType, success = true) => {
-  trackEvent('form_submission', {
-    form_type: formType,
-    success: success,
-    // Add form-specific data
-    form_data: {
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      language: navigator.language
-    }
-  });
+  if (import.meta.env.DEV) {
+    console.log('Form submission tracked:', { formType, success });
+  }
 };
 
-// Track demo request
+// Track demo request (placeholder for future implementation)
 export const trackDemoRequest = (requestData) => {
-  trackEvent('demo_request', {
-    event_category: 'engagement',
-    event_label: 'demo_request',
-    // Add demo-specific data
-    demo_data: {
-      ...requestData,
-      timestamp: new Date().toISOString()
-    }
-  });
+  if (import.meta.env.DEV) {
+    console.log('Demo request tracked:', requestData);
+  }
 };
 
-// Track product view
+// Track product view (placeholder for future implementation)
 export const trackProductView = (productId, productName) => {
-  trackEvent('product_view', {
-    product_id: productId,
-    product_name: productName,
-    event_category: 'engagement',
-    event_label: 'product_view'
-  });
+  if (import.meta.env.DEV) {
+    console.log('Product view tracked:', { productId, productName });
+  }
 };
 
-// Track scroll depth
+// Track scroll depth (placeholder for future implementation)
 export const trackScrollDepth = (depth) => {
-  // Only track significant scroll events
-  if (depth >= 25 && depth < 50) {
-    trackEvent('scroll_depth', {
-      scroll_percentage: depth,
-      event_category: 'engagement',
-      event_label: '25_percent_scroll'
-    });
-  } else if (depth >= 50 && depth < 75) {
-    trackEvent('scroll_depth', {
-      scroll_percentage: depth,
-      event_category: 'engagement',
-      event_label: '50_percent_scroll'
-    });
-  } else if (depth >= 75 && depth < 100) {
-    trackEvent('scroll_depth', {
-      scroll_percentage: depth,
-      event_category: 'engagement',
-      event_label: '75_percent_scroll'
-    });
-  } else if (depth >= 100) {
-    trackEvent('scroll_depth', {
-      scroll_percentage: depth,
-      event_category: 'engagement',
-      event_label: '100_percent_scroll'
-    });
+  if (import.meta.env.DEV) {
+    console.log('Scroll depth tracked:', depth);
   }
 };
 
-// Track time on page
+// Track time on page (placeholder for future implementation)
 export const trackTimeOnPage = (seconds) => {
-  // Track time on page in 30-second intervals
-  const interval = Math.floor(seconds / 30) * 30;
-  
-  if (interval >= 30) {
-    trackEvent('time_on_page', {
-      time_spent: interval,
-      event_category: 'engagement',
-      event_label: `${interval}_seconds`
-    });
+  if (import.meta.env.DEV) {
+    console.log('Time on page tracked:', seconds);
   }
 };
 
-// Track outbound link click
+// Track outbound link click (placeholder for future implementation)
 export const trackOutboundLink = (url) => {
-  trackEvent('outbound_link_click', {
-    link_url: url,
-    event_category: 'engagement',
-    event_label: 'outbound_link'
-  });
+  if (import.meta.env.DEV) {
+    console.log('Outbound link tracked:', url);
+  }
 };
 
-// Track file download
+// Track file download (placeholder for future implementation)
 export const trackFileDownload = (fileName, fileType) => {
-  trackEvent('file_download', {
-    file_name: fileName,
-    file_type: fileType,
-    event_category: 'engagement',
-    event_label: 'file_download'
-  });
+  if (import.meta.env.DEV) {
+    console.log('File download tracked:', { fileName, fileType });
+  }
 };
 
-// Track video play
+// Track video play (placeholder for future implementation)
 export const trackVideoPlay = (videoId, videoTitle) => {
-  trackEvent('video_play', {
-    video_id: videoId,
-    video_title: videoTitle,
-    event_category: 'engagement',
-    event_label: 'video_play'
-  });
+  if (import.meta.env.DEV) {
+    console.log('Video play tracked:', { videoId, videoTitle });
+  }
 };
 
-// Track button click
+// Track button click (placeholder for future implementation)
 export const trackButtonClick = (buttonName, buttonLocation) => {
-  trackEvent('button_click', {
-    button_name: buttonName,
-    button_location: buttonLocation,
-    event_category: 'engagement',
-    event_label: 'button_click'
-  });
+  if (import.meta.env.DEV) {
+    console.log('Button click tracked:', { buttonName, buttonLocation });
+  }
 };
 
-// Initialize scroll tracking
+// Initialize scroll tracking (placeholder for future implementation)
 export const initScrollTracking = () => {
-  let scrollTimer;
-  let lastScrollDepth = 0;
-  
-  const handleScroll = () => {
-    // Clear the previous timer
-    clearTimeout(scrollTimer);
-    
-    // Set a new timer
-    scrollTimer = setTimeout(() => {
-      // Calculate scroll depth as a percentage
-      const scrollDepth = Math.round(
-        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-      );
-      
-      // Only track if we've scrolled further than before
-      if (scrollDepth > lastScrollDepth) {
-        lastScrollDepth = scrollDepth;
-        trackScrollDepth(scrollDepth);
-      }
-    }, 1000); // Wait 1 second after scrolling stops
-  };
-  
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  if (import.meta.env.DEV) {
+    console.log('Scroll tracking placeholder - will be implemented in the future');
+  }
 };
 
-// Initialize time tracking
+// Initialize time tracking (placeholder for future implementation)
 export const initTimeTracking = () => {
-  const startTime = new Date().getTime();
-  
-  const trackTime = () => {
-    const currentTime = new Date().getTime();
-    const timeSpent = Math.round((currentTime - startTime) / 1000);
-    trackTimeOnPage(timeSpent);
-  };
-  
-  // Track time when user leaves the page
-  window.addEventListener('beforeunload', trackTime);
-  
-  // Track time every 30 seconds while user is on the page
-  setInterval(trackTime, 30000);
+  if (import.meta.env.DEV) {
+    console.log('Time tracking placeholder - will be implemented in the future');
+  }
 };
 
-// Initialize analytics
+// Initialize analytics (placeholder for future implementation)
 export const initializeAnalytics = () => {
-  // Initialize Google Analytics
+  // Initialize analytics placeholders
   initAnalytics();
-  
-  // Initialize scroll tracking
   initScrollTracking();
-  
-  // Initialize time tracking
   initTimeTracking();
   
-  console.log('Analytics tracking initialized');
+  if (import.meta.env.DEV) {
+    console.log('Analytics system ready for future implementation');
+  }
 };
 
 // Export all functions for use in components

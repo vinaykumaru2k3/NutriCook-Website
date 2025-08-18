@@ -91,7 +91,9 @@ self.addEventListener('fetch', (event) => {
 
 async function handleRequest(request) {
   // Determine cache strategy based on request type
-  if (isImageRequest(request)) {
+  if (isVideoRequest(request)) {
+    return handleVideoRequest(request);
+  } else if (isImageRequest(request)) {
     return handleImageRequest(request);
   } else if (isAPIRequest(request)) {
     return handleAPIRequest(request);
@@ -114,7 +116,8 @@ async function handleImageRequest(request) {
   try {
     const networkResponse = await fetch(request);
     
-    if (networkResponse.ok) {
+    // Only cache successful, complete responses (not partial 206 responses)
+    if (networkResponse.ok && networkResponse.status !== 206) {
       // Clone the response before caching
       const responseClone = networkResponse.clone();
       await cache.put(request, responseClone);
@@ -172,7 +175,8 @@ async function handleStaticAsset(request) {
   try {
     const networkResponse = await fetch(request);
     
-    if (networkResponse.ok) {
+    // Only cache successful, complete responses (not partial 206 responses)
+    if (networkResponse.ok && networkResponse.status !== 206) {
       const responseClone = networkResponse.clone();
       await cache.put(request, responseClone);
     }
@@ -191,7 +195,8 @@ async function handlePageRequest(request) {
   try {
     const networkResponse = await fetch(request);
     
-    if (networkResponse.ok) {
+    // Only cache successful, complete responses (not partial 206 responses)
+    if (networkResponse.ok && networkResponse.status !== 206) {
       const responseClone = networkResponse.clone();
       await cache.put(request, responseClone);
     }
@@ -211,7 +216,24 @@ async function handlePageRequest(request) {
   }
 }
 
+// Handle video requests - bypass caching for range requests
+async function handleVideoRequest(request) {
+  // Don't cache video requests - let them go directly to network
+  // This prevents 206 partial response caching issues
+  try {
+    return await fetch(request);
+  } catch (error) {
+    console.log('Video fetch failed:', error);
+    return new Response('', { status: 404 });
+  }
+}
+
 // Helper functions
+function isVideoRequest(request) {
+  return request.destination === 'video' || 
+         /\.(mp4|webm|ogg|avi|mov)$/i.test(new URL(request.url).pathname);
+}
+
 function isImageRequest(request) {
   return request.destination === 'image' || 
          /\.(jpg|jpeg|png|gif|webp|svg|ico)$/i.test(new URL(request.url).pathname);

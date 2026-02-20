@@ -1,4 +1,4 @@
-# � NutriCook - Revolutionizing Healthy Cooking
+# NutriCook - Revolutionizing Healthy Cooking
 
 > **"The Healthiest Investment Your Family Will Ever Make"**  
 > Transforming kitchens across India with surgical-grade steel cookware that enables 100% oil-free and water-free cooking
